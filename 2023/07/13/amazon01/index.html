@@ -1,0 +1,210 @@
+<!DOCTYPE html><html lang="[&quot;en&quot;,&quot;zh&quot;,&quot;default&quot;]"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="Enjoy Data science &amp; blasting engineering"><title>Amazon 查新工具 | Engineer &amp; Data</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=1.0.0"><link rel="stylesheet" type="text/css" href="https://unpkg.com/normalize.css"><link rel="stylesheet" type="text/css" href="https://unpkg.com/purecss/build/pure-min.css"><link rel="stylesheet" type="text/css" href="https://unpkg.com/purecss/build/grids-responsive-min.css"><link rel="stylesheet" href="https://unpkg.com/font-awesome@4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="https://unpkg.com/jquery/dist/jquery.min.js"></script><link rel="icon" mask="" sizes="any" href="/favicon.ico"><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><link rel="alternate" type="application/atom+xml" href="/atom.xml"><script type="text/javascript" src="https://unpkg.com/clipboard/dist/clipboard.min.js"></script><script type="text/javascript" src="https://unpkg.com/toastr/build/toastr.min.js"></script><link rel="stylesheet" href="https://unpkg.com/toastr/build/toastr.min.css"><meta name="generator" content="Hexo 6.3.0"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">Amazon 查新工具</h1><a id="logo" href="/.">Engineer &amp; Data</a><p class="description">Engineer builds the world? NO!</p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> Home</i></a><a href="/categories/Engineer/"><i class="fa fa-archive"> Engineer</i></a><a href="/categories/Data/"><i class="fa fa-archive"> Data</i></a><a href="/about/"><i class="fa fa-user"> About</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">Amazon 查新工具</h1><div class="post-meta">2023-07-13<span> | </span><span class="category"><a href="/categories/Data/">Data</a></span></div><div class="post-content"><h1 id="关键词下新上架产品搜索框"><a href="#关键词下新上架产品搜索框" class="headerlink" title="关键词下新上架产品搜索框"></a>关键词下新上架产品搜索框</h1><p>原理非常简单，就不献丑了，该工具是给朋友解决问题想到的，主要的提高搜索效率。测试下，喜欢的话就用吧。</p>
+<span id="more"></span>
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Search Box</title>
+  <style>
+    .search-box {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 15px;
+    }
+
+    .search-box select,
+    .search-box input[type="text"] {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      margin-right: 10px;
+      margin-bottom: 10px;
+      font-size: 14px;
+      width: 100%;
+    }
+
+    .search-box .search-buttons {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      width: 100%;
+    }
+
+    .search-box button {
+      padding: 10px 20px;
+      border: 1.1px solid #ccc;
+      border-radius: 8px;
+      font-size: 12px;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    @media screen and (min-width: 768px) {
+      .search-box select,
+      .search-box input[type="text"] {
+        width: auto;
+      }
+
+      .search-box .search-buttons {
+        width: auto;
+      }
+
+      .search-box button {
+        width: auto;
+        margin-top: 0;
+        margin-left: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="search-box">
+    <select id="country">
+      <option value="US">US</option>
+      <option value="UK">UK</option>
+      <option value="DE">DE</option>
+      <option value="FR">FR</option>
+      <option value="IT">IT</option>
+      <option value="ES">ES</option>
+      <option value="CA">CA</option>
+    </select>
+  
+    <input type="text" id="keyword" placeholder="Enter keyword">
+  
+    <label>
+      <input type="radio" name="searchType" value="new" checked> 新上架
+    </label>
+  
+    <label>
+      <input type="radio" name="searchType" value="popular"> 热卖
+    </label>
+  
+    <div class="search-buttons">
+      <button onclick="search()">Search Amazon</button>
+      <button onclick="searchGoogleTrends()">Google Trends</button>
+    </div>
+  </div>
+
+  <script>
+    function search() {
+      var country = document.getElementById("country").value;
+      var keyword = document.getElementById("keyword").value;
+      var searchType = document.querySelector('input[name="searchType"]:checked').value;
+
+      var baseUrl;
+      if (country === "US") {
+        baseUrl = "https://www.amazon.com/s?k=";
+      } else if (country === "UK") {
+        baseUrl = "https://www.amazon.co.uk/s?k=";
+      } else if (country === "CA") {
+        baseUrl = "https://www.amazon.ca/s?k=";
+      } else if (country === "DE") {
+        baseUrl = "https://www.amazon.de/s?k=";
+      } else if (country === "FR") {
+        baseUrl = "https://www.amazon.fr/s?k=";
+      } else if (country === "ES") {
+        baseUrl = "https://www.amazon.es/s?k=";
+      } else if (country === "IT") {
+        baseUrl = "https://www.amazon.it/s?k=";
+      } else {
+        // Handle other countries if needed
+      }
+
+      if (baseUrl) {
+        var url;
+        if (searchType === "new") {
+          url = baseUrl + encodeURIComponent(keyword) + "&s=date-desc-rank";
+        } else if (searchType === "popular") {
+          url = baseUrl + encodeURIComponent(keyword) + "&s=exact-aware-popularity-rank";
+        }
+
+        window.open(url, "_blank");
+      }
+    }
+
+    function searchGoogleTrends() {
+      var country = document.getElementById("country").value;
+      var keyword = document.getElementById("keyword").value;
+      var url;
+
+      if (country === "US") {
+        url = "https://trends.google.com/trends/explore?geo=US&q=" + encodeURIComponent(keyword);
+      } else if (country === "UK") {
+        url = "https://trends.google.com/trends/explore?geo=GB&q=" + encodeURIComponent(keyword);
+      } else if (country === "CA") {
+        url = "https://trends.google.com/trends/explore?geo=CA&q=" + encodeURIComponent(keyword);
+      } else if (country === "DE") {
+        url = "https://trends.google.com/trends/explore?geo=DE&q=" + encodeURIComponent(keyword);
+      } else {
+        // Handle other countries if needed
+        url = "https://trends.google.com/trends/explore?q=" + encodeURIComponent(keyword);
+      }
+
+      window.open(url, "_blank");
+    }
+
+    function checkKey(event) {
+      if (event.keyCode === 13) { // Enter key code
+        search();
+      }
+    }
+  </script>
+</body>
+</html>
+
+<hr>
+<h1 id="其他相关链接"><a href="#其他相关链接" class="headerlink" title="其他相关链接"></a>其他相关链接</h1><details>
+  <summary>趋势链接</summary>
+  <ul>
+    <li><a target="_blank" rel="noopener" href="https://trends.google.com/">Google Trends（谷歌趋势）</a></li>
+    <li><a target="_blank" rel="noopener" href="https://ads.google.cn/marketfinder/">谷歌发掘全球商机</a></li>
+    <li><a target="_blank" rel="noopener" href="https://www.thinkwithgoogle.com/feature/category-trends/us/week/en">谷歌全球零售趋势查询</a></li>
+    <li><a target="_blank" rel="noopener" href="https://www.bestreviews.guide/categories">最佳产品指南</a></li>
+    <li><a target="_blank" rel="noopener" href="https://explodingtopics.com/">发现爆炸性话题</a></li>
+    <li><a target="_blank" rel="noopener" href="https://www.trendhunter.com/">TREND HUNTER 趋势猎人</a></li>
+    <li><a target="_blank" rel="noopener" href="https://business.pinterest.com/en-gb/content/pinterest-predicts/">Pinterest流行趋势</a></li>
+    <li><a target="_blank" rel="noopener" href="http://www.ywindex.com/">义乌小商品指数</a></li>
+  </ul>
+</details>
+
+<details>
+  <summary>专利查询</summary>
+  <ul>
+    <li><a target="_blank" rel="noopener" href="https://tmsearch.uspto.gov">美国商标查询</a></li>
+    <li><a target="_blank" rel="noopener" href="http://patft.uspto.gov/">美国专利局</a></li>
+    <li><a target="_blank" rel="noopener" href="https://euipo.europa.eu/">欧洲商标局</a></li>
+    <li><a target="_blank" rel="noopener" href="https://www.epo.org/searching-for-patents.html">欧洲专利局</a></li>
+    <li><a target="_blank" rel="noopener" href="http://www.ipo.gov.uk/">英国商标局</a></li>
+    <li><a target="_blank" rel="noopener" href="https://www-search.uspto.gov/FOIA-search.html">律师违规记录查询</a></li>
+  </ul>
+</details>
+
+<details>
+  <summary>工具</summary>
+  <ul>
+    <li><a target="_blank" rel="noopener" href="http://43.248.49.97/">中国海关统计数据</a></li>
+    <li><a target="_blank" rel="noopener" href="http://hd.chinatax.gov.cn/nszx/InitChukou.html">出口退税率查询</a></li>
+    <li><a target="_blank" rel="noopener" href="http://cacs.mofcom.gov.cn/index.shtml">商品反倾销查询</a></li>
+    <li><a target="_blank" rel="noopener" href="http://www.customs.gov.cn/customs/302427/302442/tgzt/index.html">通关状态查询</a></li>
+    <li><a target="_blank" rel="noopener" href="http://wmsw.mofcom.gov.cn/wmsw/">进出口税费查询</a></li>
+    <li><a target="_blank" rel="noopener" href="http://fta.mofcom.gov.cn/">中国自贸区查询</a></li>
+    <li><a target="_blank" rel="noopener" href="http://go.amazonsellerservices.com/advertising-eCalendar">亚马逊节日关键词日历</a></li>
+    <li><a target="_blank" rel="noopener" href="https://tbt.sist.org.cn/mbsc_106/">技术壁垒资源网</a></li>
+    <li><a target="_blank" rel="noopener" href="https://www.iamwawa.cn/">蛙蛙在线工具</a></li>
+    <li><a target="_blank" rel="noopener" href="https://www.acronymfinder.com/">英文缩写查询</a></li>
+    <li><a target="_blank" rel="noopener" href="https://verify-email.org/">验证邮箱真假</a></li>
+    <li><a target="_blank" rel="noopener" href="https://n9.cl/zh">N9短链接生成器</a></li>
+    <li><a target="_blank" rel="noopener" href="https://www.pdfpai.com/">在线PDF工具</a></li>
+    <li><a target="_blank" rel="noopener" href="https://www.uupoop.com/#/">在线PS工具</a></li>
+    <li><a target="_blank" rel="noopener" href="https://www.iloveimg.com/">在线图片编辑器</a></li>
+    <li><a target="_blank" rel="noopener" href="https://bigjpg.com/">图片无损放大</a></li>
+    <li><a target="_blank" rel="noopener" href="https://www.remove.bg/">在线抠图</a></li>
+    <li><a target="_blank" rel="noopener" href="https://pixabay.com/">免费正版图片库</a></li>
+    <li><a target="_blank" rel="noopener" href="https://mjzj.com/newmjzj/tools/unitConversion">万能单位换算器</a></li>
+    <li><a target="_blank" rel="noopener" href="https://mjzj.com/newmjzj/tools/visualEditor">可视化编辑器</
+  </ul>
+</details></div><div class="tags"><ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/tools/" rel="tag">tools</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%B7%A8%E5%A2%83/" rel="tag">跨境</a></li></ul></div><div class="post-nav"><a class="pre" href="/2023/07/23/amazonoe/">利用亚马逊的Product Opportunity Explorer挖掘需求的垄断程度</a><a class="next" href="/2023/06/23/void/">Underground blasting design Cut area sapcing recomendation (burn cut)</a></div></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><form class="search-form" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank"><input type="text" name="q" maxlength="20" placeholder="Search"/><input type="hidden" name="sitesearch" value="https://ilyfei.com"/></form></div><div class="widget"><div class="author-info"><a class="info-avatar" href="/about/" title="About"><img class="nofancybox" src="/img/avatar.png"/></a><p>I am stupid like an idiot.</p><a class="info-icon" href="hi@ilyfei.com" title="Email" target="_blank" style="margin-inline:5px"> <i class="fa fa-envelope-square" style="margin-inline:5px"></i></a><a class="info-icon" href="/atom.xml" title="RSS" target="_blank" style="margin-inline:5px"> <i class="fa fa-rss-square" style="margin-inline:5px"></i></a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> Categories</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Data/">Data</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Engineer/">Engineer</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Personal/">Personal</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> Tags</i></div><div class="tagcloud"><a href="/tags/share/" style="font-size: 15px;">share</a> <a href="/tags/Life/" style="font-size: 15px;">Life</a> <a href="/tags/tools/" style="font-size: 15px;">tools</a> <a href="/tags/Data-Analyst/" style="font-size: 15px;">Data Analyst</a> <a href="/tags/Reading/" style="font-size: 15px;">Reading</a> <a href="/tags/%E8%B7%A8%E5%A2%83/" style="font-size: 15px;">跨境</a> <a href="/tags/%E5%B7%A5%E4%BD%9C%E6%84%9F%E6%82%9F/" style="font-size: 15px;">工作感悟</a> <a href="/tags/Share/" style="font-size: 15px;">Share</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> Recent</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2024/05/09/deepseekapi/">Googlesheet调用deepseek的API</a></li><li class="post-list-item"><a class="post-list-link" href="/2024/04/05/macro202405/">宏观研报</a></li><li class="post-list-item"><a class="post-list-link" href="/2024/03/28/20240328/">也要接受平凡的剧本</a></li><li class="post-list-item"><a class="post-list-link" href="/2023/10/07/farewelltw/">紀念劉上豪老師</a></li><li class="post-list-item"><a class="post-list-link" href="/2023/10/06/farewell/">纪念劉上豪老师</a></li><li class="post-list-item"><a class="post-list-link" href="/2023/08/22/share006/">如何提高信息检索能力</a></li><li class="post-list-item"><a class="post-list-link" href="/2023/07/29/Bgp003/">旧记事</a></li><li class="post-list-item"><a class="post-list-link" href="/2023/07/23/amazonoe/">利用亚马逊的Product Opportunity Explorer挖掘需求的垄断程度</a></li><li class="post-list-item"><a class="post-list-link" href="/2023/07/13/amazon01/">Amazon 查新工具</a></li><li class="post-list-item"><a class="post-list-link" href="/2023/06/23/void/">Underground blasting design Cut area sapcing recomendation (burn cut)</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> Links</i></div></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2024 <a href="/." rel="nofollow">Engineer &amp; Data.</a> Powered by<a rel="nofollow" target="_blank" href=""> Hexo.</a><a rel="nofollow" target="_blank" href=""> </a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=1.0.0" async></script><script type="text/javascript" src="https://unpkg.com/@fancyapps/fancybox/dist/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=1.0.0" async></script><link rel="stylesheet" type="text/css" href="https://unpkg.com/@fancyapps/fancybox/dist/jquery.fancybox.min.css"><script type="text/javascript" src="/js/copycode.js?v=1.0.0" successtext="Copy Successed!"></script><link rel="stylesheet" type="text/css" href="/css/copycode.css?v=1.0.0"><script type="text/javascript" src="/js/codeblock-resizer.js?v=1.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=1.0.0"></script></div></body></html>

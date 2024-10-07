@@ -1,0 +1,163 @@
+<!DOCTYPE html><html lang="[&quot;en&quot;,&quot;zh&quot;,&quot;default&quot;]"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="Enjoy Data science &amp; blasting engineering"><title>如何提高信息检索能力 | Engineer &amp; Data</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=1.0.0"><link rel="stylesheet" type="text/css" href="https://unpkg.com/normalize.css"><link rel="stylesheet" type="text/css" href="https://unpkg.com/purecss/build/pure-min.css"><link rel="stylesheet" type="text/css" href="https://unpkg.com/purecss/build/grids-responsive-min.css"><link rel="stylesheet" href="https://unpkg.com/font-awesome@4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="https://unpkg.com/jquery/dist/jquery.min.js"></script><link rel="icon" mask="" sizes="any" href="/favicon.ico"><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><link rel="alternate" type="application/atom+xml" href="/atom.xml"><script type="text/javascript" src="https://unpkg.com/clipboard/dist/clipboard.min.js"></script><script type="text/javascript" src="https://unpkg.com/toastr/build/toastr.min.js"></script><link rel="stylesheet" href="https://unpkg.com/toastr/build/toastr.min.css"><meta name="generator" content="Hexo 6.3.0"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">如何提高信息检索能力</h1><a id="logo" href="/.">Engineer &amp; Data</a><p class="description">Engineer builds the world? NO!</p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> Home</i></a><a href="/categories/Engineer/"><i class="fa fa-archive"> Engineer</i></a><a href="/categories/Data/"><i class="fa fa-archive"> Data</i></a><a href="/about/"><i class="fa fa-user"> About</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">如何提高信息检索能力</h1><div class="post-meta">2023-08-22<span> | </span><span class="category"><a href="/categories/Personal/">Personal</a></span></div><div class="post-content"><p>首先要知道常见的搜索引擎最起码有5个，而不是仅仅度娘，百度全球搜索份额占比不到百分之一。<br>2022年全球搜索引擎市场份额中，谷歌，必应，雅虎，yandex,百度，DD市场搜索占比</p>
+<ul>
+<li>谷歌：92.42%</li>
+<li>必应：3.45 %</li>
+<li>雅虎：1.32 %</li>
+<li>yandex：0.79 %</li>
+<li>百度：0.65 %</li>
+<li>DuckDuckGo：0.63%</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://www.zoloseo.com/search-engine-ranking/">参考链接</a></p>
+<h2 id="老规矩，工具先上。"><a href="#老规矩，工具先上。" class="headerlink" title="老规矩，工具先上。"></a>老规矩，工具先上。<br><span id="more"></span></h2><h2 id="快捷文件搜索-工具"><a href="#快捷文件搜索-工具" class="headerlink" title="快捷文件搜索 工具"></a>快捷文件搜索 工具</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>搜索功能</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f5f5f5;
+    }
+
+    #search-form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 20vh;
+    }
+
+    input, select, button {
+      margin: 5px;
+      padding: 8px;
+      font-size: 14px;
+    }
+
+    .button-container {
+      display: flex;
+      justify-content: center;
+    }
+
+    button {
+      background-color: #171f26;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <form id="search-form">
+    <input type="text" id="keywords" placeholder="关键词">
+    <select id="document-type">
+      <option value="pdf">PDF</option>
+      <option value="xls">表格</option>
+      <option value="doc">DOC</option>
+      <option value="ppt">PPT</option>
+    </select>
+    <div class="button-container">
+      <button id="baidu-search">百度搜索</button>
+      <button id="google-search">谷歌搜索</button>
+      <button id="bing-search">必应搜索</button>
+      <button id="yandex-search">Yandex搜索</button>
+    </div>
+  </form>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const form = document.getElementById('search-form');
+      const keywordsInput = document.getElementById('keywords');
+      const documentTypeSelect = document.getElementById('document-type');
+      const baiduSearchButton = document.getElementById('baidu-search');
+      const googleSearchButton = document.getElementById('google-search');
+      const bingSearchButton = document.getElementById('bing-search');
+      const yandexSearchButton = document.getElementById('yandex-search');
+
+      form.addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        const keywords = encodeURIComponent(keywordsInput.value);
+        const documentType = encodeURIComponent(documentTypeSelect.value);
+
+        const baiduSearchUrl = `https://www.baidu.com/s?wd=${keywords}+filetype%3A${documentType}`;
+        const googleSearchUrl = `https://www.google.com/search?q=${keywords}+filetype%3A${documentType}`;
+        const bingSearchUrl = `https://www.bing.com/search?q=${keywords}+filetype%3A${documentType}`;
+        const yandexSearchUrl = `https://yandex.com/search/?text=${keywords}+filetype%3A${documentType}`;
+
+        if (baiduSearchButton === event.submitter) {
+          window.open(baiduSearchUrl, '_blank');
+        } else if (googleSearchButton === event.submitter) {
+          window.open(googleSearchUrl, '_blank');
+        } else if (bingSearchButton === event.submitter) {
+          window.open(bingSearchUrl, '_blank');
+        } else if (yandexSearchButton === event.submitter) {
+          window.open(yandexSearchUrl, '_blank');
+        }
+      });
+    });
+  </script>
+</body>
+</html>
+
+<hr>
+<p>信息检索是一门独立的课程，里面对信息的检索有非常系统的概述。我这种学渣是做不到对那么大的框架做提炼。</p>
+<p>因为在类互联网行业待过，自以为在信息检索方面比一般人会稍微强一点点，偶尔与人沟通时也会聊到关于信息查询方面的知识，写这篇文字一是感叹于这种捅破窗户纸的东西还是有人不知道，二是有的人竟然认为这层窗户纸比愚公移山还难。诚然，每个人的世界都是局限的，这是个哲学问题，我无法探讨。但是打破<strong>信息茧房</strong>并不是那么困难，只需要使用一点点技巧，了解一点点知识，我们的搜索能力就能大步提高。</p>
+<p>注意，检索到信息，它最核心的作用的打破<strong>信息茧房，</strong>这不代表你具备了信息描述的能力，比如你可以轻松搜索到单片机的设计工艺，但不代表你真的会设计单片机。检索信息仅仅提供了可能性的基础。</p>
+<p>在这里我先不谈正在爆发的技术会带来的革新，先从最简单的逻辑说起，信息检索我把它白话成以下几步</p>
+<ol>
+<li>确认你的问题</li>
+<li>知道信息大概存在于哪里</li>
+<li>不停接近这个信息，判断信息并且缩小它所在的范围</li>
+<li>获得信息</li>
+</ol>
+<hr>
+<h2 id="1，确认与分解问题"><a href="#1，确认与分解问题" class="headerlink" title="1，确认与分解问题"></a>1，确认与分解问题</h2><p>是的，第一步似乎和检索没有任何关系，但是大部分人检索不到信息，是因为他压根就不知道自己的“问题”是什么。</p>
+<p>很可能你一直以来的提问方式就是错的，你的真正的“问题”不一定是你过去的“提问方式下的问题”</p>
+<p>比如：如果想提高英语（提高代表你有英语基础），我去检索“如何提高英语”。相信绝大部分是广告，其次可能是匹配度不高的信息，比如你想提高的是口语，展示的信息却是对英语的写作。</p>
+<p>也就是说，你的一个不恰当的问题，会出现80%的不相关结果，在不停地筛查中，你会放弃，因为一个不爱明确提出具体问题的人往往也没耐心去筛选信息。</p>
+<p>那么，先要确认你要提高英语的哪个点，这时候你会发现有两种情况：</p>
+<ul>
+<li>你只是受环境影响，你的某个同事浏览英文网站被你看到了，所谓想提高英语仅仅是因为从众心理，实际上你压根就不想提高英语。</li>
+<li>你学习英语是因为你的岗位也很多英文咨询，所以先了解跟自己行业相关的英语网站可以帮自己解决工作问题。你就可以开始分解这个宏观的问题<ul>
+<li>有哪些英文类的咨询网站</li>
+<li>看这些网站你面临哪些困难，把每一个困难变成一个问题</li>
+</ul>
+</li>
+</ul>
+<p>如果是第一种，那你大可不必做一个虎头蛇尾的事情，眼下你可能有更加重要紧急的事情需要去处理。</p>
+<p>如果是第二种，比起“如何提高英语”，你把问题定位到了“xxx行业的英文类资讯网站有哪些”，同时对一个宏观的问题做了<strong>拆解。</strong></p>
+<p>这里可能会反驳，这和提高英语有关系吗？那你不妨再问自己一句，提高英语干嘛呢？你是信仰英语吗？无所指代的问题，只配得到无法应用的答案。</p>
+<hr>
+<h2 id="2，知道信息存在于哪里"><a href="#2，知道信息存在于哪里" class="headerlink" title="2，知道信息存在于哪里"></a>2，知道信息存在于哪里</h2><p>我自己把信息分为，广泛传播的，未广泛传播的</p>
+<ul>
+<li>广泛传播的信息<ul>
+<li>学术资源，如书籍，期刊，论文</li>
+<li>新闻媒体评论</li>
+<li>博客，论坛</li>
+<li>高校，企业，政府，无政府组织，公益官网</li>
+</ul>
+</li>
+<li>未广泛传播的<ul>
+<li>细分领域的圈层信息</li>
+<li>会所，部分协会等内部资料</li>
+<li>涉及隐私或不具备广泛传播特征的信息，如：小企业的财务状况，你喜欢的女孩子是不是单身</li>
+</ul>
+</li>
+</ul>
+<p>对于广泛传播的信息，似乎比较贴切我们的主题。而未广泛传播的更加适合于身体力行，但是似乎逻辑都是一致的。</p>
+<p>如果你的问题是“某某女孩是否单身”</p>
+<p>1，确认问题是什么，“xxx是否单身”<br>2，这个事情，她自己必然知道，其次可能他的身边朋友<br>3，接近她的朋友或者直接找到她，侧面打听<br>4，你会得到一些列回答，再进行判断</p>
+<p>当然，这种未广泛传播的信息，更多的是需要社交方案，自己的平台及形象。并且未广泛传播的信息本身可能不具备合法性，比如你如果想了解竞争公司的财务状况去贿赂人家的财务，就已经踏进牢房半步了。另外还有暗网，黑产如社工库这些，都是非法的。</p>
+<hr>
+<h2 id="3，接近与获得信息"><a href="#3，接近与获得信息" class="headerlink" title="3，接近与获得信息"></a>3，接近与获得信息</h2><p>这里要做两个假设前提，当然，即使这样你也能处理99%的信息获取壁垒了</p>
+<p>1，你需要的信息是广泛传播的信息<br>2，你具备条件检索到它（特指技术层面，如权限，防火墙等）</p>
+<h4 id="如何接近信息呢？"><a href="#如何接近信息呢？" class="headerlink" title="如何接近信息呢？"></a>如何接近信息呢？</h4><p>1，将拆解的问题，分步搜索，比如：搜索信息所在的地方，回到案例1，我们先得到了一些英文行业资讯【确定了信息存在于哪里】。<br>2，你发现很多单词非常陌生，那你的问题就是“某某行业的英文术语”，因为你甚至这些可能是书籍的形式出现，那你可以通过搜索技巧“某某行业的英文术语 filetype:pdf”。这样出来的结果就是PDF的文件，内容关于“某某行业的英文术语”。<br>3，你发现单词量太多了，你认识的不到10%，那你就需要思考如何”背单词“，所以你可以搜索”背单词的常见方法“。<br>4，或者你需要注重发音，那你就需要去查询发音，但是一个个查询太慢了，那你可以搜索”单词的发音规律“，也可以”单词的发音规律 filetype:pdf“。<br>5，你可能会重新接触到音标，那么思考下”音标是发音“，所以你明确这个信息会存在于视频中，所以你开始搜索视频”英语音标教程“</p>
+<p>综合，你从一个提高英语的问题（似乎非常宽泛），根据你的实际背景拆分了以下步骤</p>
+<p>1，找到你要解决的问题【行业英文咨询】<br>2，导向第二个信息【行业的英文术语】<br>3，导向第三个信息【背单词的常见方法】<br>4，导向第四个信息【单词的发音规律】</p>
+<p>….</p>
+<p>这个过程就是接近你想要的信息（为了解决问题），是的，他不是独立的一个信息，而是一系列的信息等你分布消化，且这个过程并非发生在一瞬间，而是和你互动。</p>
+</div><div class="tags"><ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/share/" rel="tag">share</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/tools/" rel="tag">tools</a></li></ul></div><div class="post-nav"><a class="pre" href="/2023/10/06/farewell/">纪念劉上豪老师</a><a class="next" href="/2023/07/29/Bgp003/">旧记事</a></div></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><form class="search-form" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank"><input type="text" name="q" maxlength="20" placeholder="Search"/><input type="hidden" name="sitesearch" value="https://ilyfei.com"/></form></div><div class="widget"><div class="author-info"><a class="info-avatar" href="/about/" title="About"><img class="nofancybox" src="/img/avatar.png"/></a><p>I am stupid like an idiot.</p><a class="info-icon" href="hi@ilyfei.com" title="Email" target="_blank" style="margin-inline:5px"> <i class="fa fa-envelope-square" style="margin-inline:5px"></i></a><a class="info-icon" href="/atom.xml" title="RSS" target="_blank" style="margin-inline:5px"> <i class="fa fa-rss-square" style="margin-inline:5px"></i></a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> Categories</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Data/">Data</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Engineer/">Engineer</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Personal/">Personal</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> Tags</i></div><div class="tagcloud"><a href="/tags/share/" style="font-size: 15px;">share</a> <a href="/tags/Life/" style="font-size: 15px;">Life</a> <a href="/tags/tools/" style="font-size: 15px;">tools</a> <a href="/tags/Data-Analyst/" style="font-size: 15px;">Data Analyst</a> <a href="/tags/Reading/" style="font-size: 15px;">Reading</a> <a href="/tags/%E8%B7%A8%E5%A2%83/" style="font-size: 15px;">跨境</a> <a href="/tags/%E5%B7%A5%E4%BD%9C%E6%84%9F%E6%82%9F/" style="font-size: 15px;">工作感悟</a> <a href="/tags/Share/" style="font-size: 15px;">Share</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> Recent</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2024/05/09/deepseekapi/">Googlesheet调用deepseek的API</a></li><li class="post-list-item"><a class="post-list-link" href="/2024/04/05/macro202405/">宏观研报</a></li><li class="post-list-item"><a class="post-list-link" href="/2024/03/28/20240328/">也要接受平凡的剧本</a></li><li class="post-list-item"><a class="post-list-link" href="/2023/10/07/farewelltw/">紀念劉上豪老師</a></li><li class="post-list-item"><a class="post-list-link" href="/2023/10/06/farewell/">纪念劉上豪老师</a></li><li class="post-list-item"><a class="post-list-link" href="/2023/08/22/share006/">如何提高信息检索能力</a></li><li class="post-list-item"><a class="post-list-link" href="/2023/07/29/Bgp003/">旧记事</a></li><li class="post-list-item"><a class="post-list-link" href="/2023/07/23/amazonoe/">利用亚马逊的Product Opportunity Explorer挖掘需求的垄断程度</a></li><li class="post-list-item"><a class="post-list-link" href="/2023/07/13/amazon01/">Amazon 查新工具</a></li><li class="post-list-item"><a class="post-list-link" href="/2023/06/23/void/">Underground blasting design Cut area sapcing recomendation (burn cut)</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> Links</i></div></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2024 <a href="/." rel="nofollow">Engineer &amp; Data.</a> Powered by<a rel="nofollow" target="_blank" href=""> Hexo.</a><a rel="nofollow" target="_blank" href=""> </a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=1.0.0" async></script><script type="text/javascript" src="https://unpkg.com/@fancyapps/fancybox/dist/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=1.0.0" async></script><link rel="stylesheet" type="text/css" href="https://unpkg.com/@fancyapps/fancybox/dist/jquery.fancybox.min.css"><script type="text/javascript" src="/js/copycode.js?v=1.0.0" successtext="Copy Successed!"></script><link rel="stylesheet" type="text/css" href="/css/copycode.css?v=1.0.0"><script type="text/javascript" src="/js/codeblock-resizer.js?v=1.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=1.0.0"></script></div></body></html>
