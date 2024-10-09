@@ -11,8 +11,46 @@ html.dataset.dark = localStorage.dark || prefersDarkMode.matches;
 toggle.addEventListener('click', () => {
 localStorage.dark = !(html.dataset.dark == 'true');
 html.dataset.dark = localStorage.dark;
-});</script><meta name="generator" content="Hexo 6.3.0"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">Timok portal</h1><a id="logo" href="/.">Engineer &amp; Data</a><p class="description">Engineer builds the world? NO!</p></div><div id="nav-menu"><a href="/categories/Engineer/"><i class="fa fa-archive"> Engineer</i></a><a href="/categories/Data/"><i class="fa fa-archive"> Data</i></a><a href="/categories/Personal/"><i class="fa fa-user"> Personal</i></a><a href="/about/"><i class="fa fa-user"> About</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">Timok portal</h1><div class="post-content"><p><button style="padding: 10px 20px; background-color: #da291c; color: white; border: none; border-radius: 5px; cursor: pointer;" 
-onclick="window.open('https://www.appsheet.com/start/5534b0b3-8c53-4f1b-b326-1ed49ae9bba2', '_blank')">Go maxam timok</button></p>
+});</script><meta name="generator" content="Hexo 6.3.0"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">Timok portal</h1><a id="logo" href="/.">Engineer &amp; Data</a><p class="description">Engineer builds the world? NO!</p></div><div id="nav-menu"><a href="/categories/Engineer/"><i class="fa fa-archive"> Engineer</i></a><a href="/categories/Data/"><i class="fa fa-archive"> Data</i></a><a href="/categories/Personal/"><i class="fa fa-user"> Personal</i></a><a href="/about/"><i class="fa fa-user"> About</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">Timok portal</h1><div class="post-content"><div style="position: relative; width: 100%; height: 100%;">
+    <button id="fullscreen-button" style="position: absolute; top: 10px; right: 10px; z-index: 1000; padding: 10px 20px; background-color: #da291c; color: white; border: none; border-radius: 5px; cursor: pointer;">
+        Full Screen
+    </button>
+    <iframe id="appsheet-iframe" src="https://www.appsheet.com/start/5534b0b3-8c53-4f1b-b326-1ed49ae9bba2" width="100%" height="100%" frameborder="0" allowfullscreen></iframe>
+</div>
+
+<script>
+    // 函数用于调整iframe高度
+    function adjustIframeHeight() {
+        var iframe = document.getElementById('appsheet-iframe');
+        iframe.style.height = window.innerHeight + 'px';  // 高度设置为窗口高度
+    }
+
+    // 确保 iframe 加载完成后调整高度
+    window.onload = function() {
+        adjustIframeHeight();
+    };
+
+    // 监听窗口大小变化
+    window.onresize = function() {
+        adjustIframeHeight();
+    };
+
+    // 全屏按钮事件
+    document.getElementById('fullscreen-button').onclick = function() {
+        var iframe = document.getElementById('appsheet-iframe');
+
+        if (iframe.requestFullscreen) {
+            iframe.requestFullscreen();
+        } else if (iframe.mozRequestFullScreen) { // Firefox
+            iframe.mozRequestFullScreen();
+        } else if (iframe.webkitRequestFullscreen) { // Chrome, Safari and Opera
+            iframe.webkitRequestFullscreen();
+        } else if (iframe.msRequestFullscreen) { // IE/Edge
+            iframe.msRequestFullscreen();
+        }
+    };
+</script>
+
 <h2 id="Privacy-Statement"><a href="#Privacy-Statement" class="headerlink" title="Privacy Statement"></a>Privacy Statement</h2><p>The data displayed on this platform is solely for demonstration purposes, and no personal information is collected or processed. All data presented is tracked and analyzed to enhance user experience and improve system performance.</p>
 <p>Data tracking includes, but is not limited to, access times, frequency of visits, user interactions, page clicks, and other usage-related activities. By tracking this information, we aim to better understand user needs and provide more relevant content.</p>
 <p>Please note that all tracked data is handled with appropriate safeguards and in compliance with relevant privacy and data protection laws. The data is not used to identify you personally, nor will your personal information be shared with third parties.</p>
