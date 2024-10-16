@@ -1,0 +1,99 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>搜索功能</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            display: flex;               /* 使用 Flexbox */
+            align-items: center;        /* 垂直居中 */
+            justify-content: center;    /* 水平居中 */
+            height: 100vh;             /* 视口高度 */
+            border-radius: 15px;
+        }
+        #search-form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: ;          /* 背景色 */
+            padding: 20px;              /* 内边距 */
+            border-radius: 15px;        /* 圆角边框 */
+        }
+        input, select, button {
+            margin: 5px;
+            padding: 8px;
+            font-size: 14px;
+            border-radius: 5px;
+        }
+        .button-container {
+            display: flex;
+            justify-content: center;
+        }
+        button {
+            background-color: #171f26;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px; 
+        }
+    </style>
+</head>
+<body>
+  <form id="search-form">
+    <input type="text" id="keywords" placeholder="输入搜索关键词">
+    <select id="document-type">
+      <option value="pdf">PDF</option>
+      <option value="xls">表格</option>
+      <option value="doc">DOC</option>
+      <option value="ppt">PPT</option>
+    </select>
+    <div class="button-container">
+      <button id="baidu-search">百度搜索</button>
+      <button id="google-search">谷歌搜索</button>
+      <button id="bing-search">必应搜索</button>
+      <button id="yandex-search">Yandex搜索</button>
+    </div>
+  </form>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const form = document.getElementById('search-form');
+      const keywordsInput = document.getElementById('keywords');
+      const documentTypeSelect = document.getElementById('document-type');
+      const baiduSearchButton = document.getElementById('baidu-search');
+      const googleSearchButton = document.getElementById('google-search');
+      const bingSearchButton = document.getElementById('bing-search');
+      const yandexSearchButton = document.getElementById('yandex-search');
+
+      form.addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        const keywords = encodeURIComponent(keywordsInput.value);
+        const documentType = encodeURIComponent(documentTypeSelect.value);
+
+        const baiduSearchUrl = `https://www.baidu.com/s?wd=${keywords}+filetype%3A${documentType}`;
+        const googleSearchUrl = `https://www.google.com/search?q=${keywords}+filetype%3A${documentType}`;
+        const bingSearchUrl = `https://www.bing.com/search?q=${keywords}+filetype%3A${documentType}`;
+        const yandexSearchUrl = `https://yandex.com/search/?text=${keywords}+filetype%3A${documentType}`;
+
+        if (baiduSearchButton === event.submitter) {
+          window.open(baiduSearchUrl, '_blank');
+        } else if (googleSearchButton === event.submitter) {
+          window.open(googleSearchUrl, '_blank');
+        } else if (bingSearchButton === event.submitter) {
+          window.open(bingSearchUrl, '_blank');
+        } else if (yandexSearchButton === event.submitter) {
+          window.open(yandexSearchUrl, '_blank');
+        }
+      });
+    });
+  </script>
+</body>
+</html>
