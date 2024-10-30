@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://ilyfei.com/CV/index.html</loc>
+    
+    <lastmod>2024-10-30</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://ilyfei.com/about/index.html</loc>
     
     <lastmod>2024-10-30</lastmod>
@@ -290,7 +299,7 @@
   </url>
   
   <url>
-    <loc>https://ilyfei.com/files/GRE-Analytical-Writing-Issue-Task-Topics.html</loc>
+    <loc>https://ilyfei.com/files/GRE-Analytical-Writing-Argument-Task-Topics.html</loc>
     
     <lastmod>2024-03-31</lastmod>
     
@@ -299,7 +308,7 @@
   </url>
   
   <url>
-    <loc>https://ilyfei.com/files/GRE-Analytical-Writing-Argument-Task-Topics.html</loc>
+    <loc>https://ilyfei.com/files/GRE-Analytical-Writing-Issue-Task-Topics.html</loc>
     
     <lastmod>2024-03-31</lastmod>
     
@@ -316,15 +325,6 @@
     <priority>0.6</priority>
   </url>
   
-  <url>
-    <loc>https://ilyfei.com/CV/index.html</loc>
-    
-    <lastmod>2024-03-14</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
 
   <url>
     <loc>https://ilyfei.com/</loc>
@@ -333,6 +333,13 @@
     <priority>1.0</priority>
   </url>
 
+  
+  <url>
+    <loc>https://ilyfei.com/tags/Life/</loc>
+    <lastmod>2024-10-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
   
   <url>
     <loc>https://ilyfei.com/tags/share/</loc>
@@ -349,13 +356,6 @@
   </url>
   
   <url>
-    <loc>https://ilyfei.com/tags/Life/</loc>
-    <lastmod>2024-10-30</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://ilyfei.com/tags/Data-Analyst/</loc>
     <lastmod>2024-10-30</lastmod>
     <changefreq>weekly</changefreq>
@@ -363,14 +363,14 @@
   </url>
   
   <url>
-    <loc>https://ilyfei.com/tags/%E8%B7%A8%E5%A2%83/</loc>
+    <loc>https://ilyfei.com/tags/Reading/</loc>
     <lastmod>2024-10-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://ilyfei.com/tags/Reading/</loc>
+    <loc>https://ilyfei.com/tags/%E8%B7%A8%E5%A2%83/</loc>
     <lastmod>2024-10-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
