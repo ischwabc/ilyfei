@@ -1,3 +1,4 @@
+https://ilyfei.com/2024/10/31/dataanalyst/
 https://ilyfei.com/CV/index.html
 https://ilyfei.com/about/index.html
 https://ilyfei.com/timok/index.html
@@ -20,7 +21,6 @@ https://ilyfei.com/2023/06/11/Kuz-Ram%20and%20other%20models%20for%20fragmentati
 https://ilyfei.com/2022/01/23/How%20do%20I%20think%20%E2%80%9CReading%E2%80%9D/
 https://ilyfei.com/2023/10/07/farewelltw/
 https://ilyfei.com/2023/10/06/farewell/
-https://ilyfei.com/2022/12/10/dataanalyst/
 https://ilyfei.com/2022/10/08/First%20to%20Data%20Analyst/
 https://ilyfei.com/2023/01/08/csml/
 https://ilyfei.com/2023/02/18/cbl/
@@ -36,8 +36,8 @@ https://ilyfei.com/tags/share/
 https://ilyfei.com/tags/Life/
 https://ilyfei.com/tags/tools/
 https://ilyfei.com/tags/Data-Analyst/
-https://ilyfei.com/tags/Reading/
 https://ilyfei.com/tags/%E8%B7%A8%E5%A2%83/
+https://ilyfei.com/tags/Reading/
 https://ilyfei.com/tags/%E5%B7%A5%E4%BD%9C%E6%84%9F%E6%82%9F/
 https://ilyfei.com/tags/Share/
 https://ilyfei.com/categories/Personal/
