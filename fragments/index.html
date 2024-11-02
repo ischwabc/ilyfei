@@ -7,37 +7,48 @@
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <style>
         :root {
-            --primary-color: #2196F3;
-            --secondary-color: #f4f4f4;
+            --primary-color: #2c3e50;
+            --secondary-color: #34495e;
+            --accent-color: #3498db;
+            --danger-color: #e74c3c;
+            --success-color: #2ecc71;
+            --warning-color: #f1c40f;
+            --background-color: #ecf0f1;
+            --card-background: #ffffff;
         }
 
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 20px;
-            background-color: #f9f9f9;
+            background-color: var(--background-color);
+            color: var(--primary-color);
         }
 
         .container {
             max-width: 1000px;
             margin: 0 auto;
-            background-color: white;
+            background-color: var(--card-background);
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
 
         .formula-section {
-            background-color: var(--secondary-color);
+            background-color: var(--card-background);
             padding: 15px;
             border-radius: 5px;
             margin: 20px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
 
         .formula {
             font-family: "Times New Roman", serif;
             font-size: 1.1em;
             margin: 10px 0;
+            padding: 15px;
+            background-color: rgba(52, 152, 219, 0.1);
+            border-radius: 8px;
         }
 
         .input-grid {
@@ -55,64 +66,118 @@
         label {
             margin-bottom: 5px;
             font-weight: bold;
+            color: var(--secondary-color);
         }
 
         input {
             padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            transition: border-color 0.3s;
+        }
+
+        input:focus {
+            border-color: var(--accent-color);
+            outline: none;
         }
 
         button {
-            background-color: var(--primary-color);
+            background-color: var(--accent-color);
             color: white;
             padding: 10px 20px;
             border: none;
-            border-radius: 4px;
+            border-radius: 8px;
             cursor: pointer;
             font-size: 1em;
+            transition: background-color 0.3s;
         }
 
         button:hover {
-            opacity: 0.9;
+            background-color: #2980b9;
         }
 
         #plotContainer {
             margin: 20px 0;
             height: 500px;
+            background-color: var(--card-background);
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 15px;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
             margin: 20px 0;
+            background-color: var(--card-background);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
 
         th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
+            border: 1px solid #eee;
+            padding: 12px;
             text-align: left;
         }
 
         th {
-            background-color: var(--secondary-color);
+            background-color: var(--accent-color);
+            color: white;
         }
 
-        /* 添加X50点突出显示样式 */
         .x50-point {
-            background-color: #E3F2FD;
+            background-color: rgba(52, 152, 219, 0.1);
             font-weight: bold;
         }
 
-        /* 表格中X50行的样式 */
         tr.x50-row {
-            background-color: #E3F2FD !important;
+            background-color: rgba(52, 152, 219, 0.1) !important;
             font-weight: bold;
         }
 
-        /* 悬停效果 */
         tr:hover {
-            background-color: #f5f5f5;
+            background-color: rgba(52, 152, 219, 0.05);
+        }
+
+        h1, h2 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .formula h3 {
+            color: var(--accent-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .reference-link {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-size: 0.8em;
+            margin-left: 8px;
+            padding: 2px 6px;
+            border: 1px solid var(--accent-color);
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .reference-link:hover {
+            background-color: var(--accent-color);
+            color: white;
+        }
+
+        .reference {
+            font-size: 0.85em;
+            color: var(--secondary-color);
+            margin-top: 1rem;
+            padding-top: 0.5rem;
+            border-top: 1px dashed #ddd;
+            font-style: italic;
+        }
+
+        .formula {
+            position: relative;
+            margin-bottom: 2rem;
         }
     </style>
 </head>
@@ -123,9 +188,8 @@
         <div class="formula-section">
             <h2>Calculation Formulas</h2>
             
-            <!-- Kuz-Ram模型 -->
             <div class="formula">
-                <h3>Kuz-Ram Model</h3>
+                <h3>Kuz-Ram Model <a href="https://doi.org/10.1016/0148-9062(83)90552-X" target="_blank" class="reference-link">[Ref]</a></h3>
                 <p>X<sub>50</sub> = A × K<sup>-0.8</sup> × Q<sup>1/6</sup> × (115/RWS)<sup>19/30</sup></p>
                 <p>R(x) = 100 × (1 - e<sup>-(x/X<sub>50</sub>)<sup>n</sup></sup>)</p>
                 <p>Where:</p>
@@ -136,11 +200,11 @@
                     <li>Q = Charge per Hole (kg)</li>
                     <li>RWS = Relative Weight Strength of Explosive</li>
                 </ul>
+                <p class="reference">Cunningham, C.V.B. (1983). The Kuz-Ram model for prediction of fragmentation from blasting. In First International Symposium on Rock Fragmentation by Blasting, Luleå, Sweden.</p>
             </div>
 
-            <!-- Modified Kuz-Ram模型 -->
             <div class="formula">
-                <h3>Modified Kuz-Ram Model</h3>
+                <h3>Modified Kuz-Ram Model <a href="https://doi.org/10.1016/j.ijrmms.2005.06.002" target="_blank" class="reference-link">[Ref]</a></h3>
                 <p>R(x) = R<sub>KR</sub>(x) × f(x/x<sub>max</sub>)</p>
                 <p>Where:</p>
                 <ul>
@@ -148,11 +212,11 @@
                     <li>f(x/x<sub>max</sub>) = Correction Factor</li>
                     <li>x<sub>max</sub> = Maximum Particle Size</li>
                 </ul>
+                <p class="reference">Cunningham, C.V.B. (2005). The Kuz-Ram fragmentation model – 20 years on. In Brighton Conference Proceedings 2005, R. Holmberg et al. European Federation of Explosives Engineers.</p>
             </div>
 
-            <!-- Swebrec模型 -->
             <div class="formula">
-                <h3>Swebrec Model</h3>
+                <h3>Swebrec Model <a href="https://doi.org/10.1016/j.ijrmms.2005.05.018" target="_blank" class="reference-link">[Ref]</a></h3>
                 <p>P(x) = 100 / (1 + (ln(x<sub>max</sub>/x)/ln(x<sub>max</sub>/x<sub>50</sub>))<sup>b</sup>)</p>
                 <p>Where:</p>
                 <ul>
@@ -160,11 +224,11 @@
                     <li>x<sub>50</sub> = Average Particle Size</li>
                     <li>b = Shape Parameter of Curve</li>
                 </ul>
+                <p class="reference">Ouchterlony, F. (2005). The Swebrec function: linking fragmentation by blasting and crushing. Mining Technology, 114(1), 29-44.</p>
             </div>
 
-            <!-- TCM模型 -->
             <div class="formula">
-                <h3>Two-Component Model (TCM)</h3>
+                <h3>Two-Component Model (TCM) <a href="https://doi.org/10.1016/j.ijrmms.2006.03.011" target="_blank" class="reference-link">[Ref]</a></h3>
                 <p>P(x) = f<sub>f</sub>P<sub>f</sub>(x) + (1-f<sub>f</sub>)P<sub>c</sub>(x)</p>
                 <p>Where:</p>
                 <ul>
@@ -172,6 +236,7 @@
                     <li>P<sub>f</sub>(x) = Distribution of Fine Particles</li>
                     <li>P<sub>c</sub>(x) = Distribution of Coarse Particles</li>
                 </ul>
+                <p class="reference">Djordjevic, N. (1999). Two-component model of blast fragmentation. In Proceedings of the Sixth International Symposium on Rock Fragmentation by Blasting–Fragblast, 6, 213-219.</p>
             </div>
         </div>
 
@@ -185,19 +250,19 @@
                 <input type="number" id="ucs" value="100">
             </div>
             <div class="input-group">
-                <label>RMD (RMD)</label>
+                <label>Rock Mass Description (RMD)</label>
                 <input type="number" id="rmd" value="50">
             </div>
             <div class="input-group">
-                <label>JF (JF)</label>
+                <label>Joint Factor (JF)</label>
                 <input type="number" id="jf" value="10">
             </div>
             <div class="input-group">
-                <label>RWS (RWS)</label>
+                <label>Relative Weight Strength (RWS)</label>
                 <input type="number" id="rws" value="100">
             </div>
             <div class="input-group">
-                <label>Charge (kg)</label>
+                <label>Charge Weight (kg)</label>
                 <input type="number" id="charge" value="50">
             </div>
             <div class="input-group">
@@ -238,10 +303,15 @@
 
     <script>
         function calculateRockFactor() {
-            const rmd = parseFloat(document.getElementById('rmd').value);
-            const jf = parseFloat(document.getElementById('jf').value);
-            const ucs = parseFloat(document.getElementById('ucs').value);
-            return 0.06 * (rmd + jf + ucs);
+            try {
+                const rmd = Math.max(0, parseFloat(document.getElementById('rmd').value) || 50);
+                const jf = Math.max(0, parseFloat(document.getElementById('jf').value) || 10);
+                const ucs = Math.max(0, parseFloat(document.getElementById('ucs').value) || 100);
+                return 0.06 * (rmd + jf + ucs/3);
+            } catch (error) {
+                console.error("Error in calculateRockFactor:", error);
+                return 1;
+            }
         }
 
         function calculateX50() {
@@ -250,9 +320,10 @@
             const rws = parseFloat(document.getElementById('rws').value);
             const burden = parseFloat(document.getElementById('burden').value);
             const spacing = parseFloat(document.getElementById('spacing').value);
+            const benchHeight = parseFloat(document.getElementById('benchHeight').value);
             
-            const K = Q / (burden * spacing * 15); // 假设台阶高度为15m
-            return A * Math.pow(K, -0.8) * Math.pow(Q, 1/6) * Math.pow(115/rws, 19/30);
+            const K = Q / (burden * spacing * benchHeight);
+            return A * Math.pow(K, -0.8) * Math.pow(Q, 1/6) * Math.pow(115/rws, 19/20);
         }
 
         function calculateUniformityIndex() {
@@ -262,264 +333,299 @@
             const delay = parseFloat(document.getElementById('delay').value);
             const holeLength = benchHeight * 1.15;
             
-            // 假设炮孔直径为90mm
-            const holeDiameter = 0.09;
+            const holeDiameter = 0.09; // 90mm
             
-            // 更新的均匀度指数计算公式，考虑延时时间的影响
             let n = (2.2 - 14 * burden/holeDiameter) * 
-                    (1 - spacing/burden) * 
-                    Math.sqrt(holeLength/burden) * 
-                    (1 - delay/1000) * // 延时影响因子
-                    (1 - 0/3);
+                    Math.sqrt(spacing/burden) * 
+                    Math.sqrt(1 + holeLength/burden) * 
+                    Math.abs(1 - delay/1000);
             
             return Math.max(0.7, Math.min(n, 2.0));
         }
 
-        // Modified Kuz-Ram模型计算
         function calculateModifiedKuzRam(x, x50, n, xmax) {
-            // 修改后的 Modified Kuz-Ram 计算
             if (x >= xmax) {
                 return 100;
             }
             
-            // Rosin-Rammler 分布
             const R = 1 - Math.exp(-Math.pow(x/x50, n));
+            const f = Math.exp(-0.001 * Math.pow(x/xmax, 2));
             
-            // Cunningham 修正因子 (1990)
-            // 使用更平滑的修正因子，避免曲线下降
-            const f = Math.exp(-0.001 * Math.pow(x/xmax, 3));
-            
-            // 计算最终通过率
             return Math.min(100 * R * f, 100);
         }
 
-        // Swebrec模型计算
         function calculateSwebrec(x, x50, b, xmax) {
-            const ln_quotient = Math.log(xmax/x) / Math.log(xmax/x50);
-            return Math.min(100 / (1 + Math.pow(ln_quotient, b)), 100);
+            if (x >= xmax) return 100;
+            if (x <= 0) return 0;
+            
+            try {
+                const ln_quotient = Math.log(xmax/x) / Math.log(xmax/x50);
+                return Math.min(100 / (1 + Math.pow(ln_quotient, b)), 100);
+            } catch (error) {
+                return 0;
+            }
         }
 
-        // TCM模型计算
         function calculateTCM(x, x50, n, f_f) {
-            const coarse = 100 * (1 - Math.exp(-Math.pow(x/x50, n)));
-            const fines = 100 * (1 - Math.exp(-Math.pow(x/(x50/10), n*1.5)));
-            return Math.min(f_f * fines + (1 - f_f) * coarse, 100);
+            try {
+                const coarse = 100 * (1 - Math.exp(-Math.pow(x/x50, n)));
+                const x50_fine = x50 * 0.1;
+                const n_fine = n * 1.5;
+                const fines = 100 * (1 - Math.exp(-Math.pow(x/x50_fine, n_fine)));
+                
+                return Math.min(f_f * fines + (1 - f_f) * coarse, 100);
+            } catch (error) {
+                return 0;
+            }
         }
 
         function calculate() {
-            const x50 = calculateX50() * 10; // 转换为mm
-            const n = calculateUniformityIndex();
-            const xmax = x50 * 5; // 使用更合理的最大粒径估计值
-            const b = 3.0; // Swebrec模型的形状参数
-            const f_f = 0.3; // TCM模型的细粒含量系数
-            
-            // 动态生成粒径序列，基于计算出的x50值
-            const minSize = x50 * 0.01; // 最小粒径为x50的1%
-            const maxSize = x50 * 20;   // 最大粒径为x50的20倍
-            
-            const sizes = [];
-            for(let i = 0; i <= 100; i++) {
-                sizes.push(minSize * Math.exp(i * Math.log(maxSize/minSize)/100));
+            try {
+                console.log("Starting calculation...");
+                
+                const x50 = calculateX50() * 10; // Convert to mm
+                console.log("X50:", x50);
+                
+                const n = calculateUniformityIndex();
+                console.log("Uniformity Index:", n);
+                
+                const xmax = x50 * 6;    // 调整最大粒径估计
+                const b = 3.0;           // Swebrec 形状参数
+                const f_f = 0.3;         // TCM 细颗粒比例
+                
+                // 调整粒径范围
+                const minSize = Math.max(x50 * 0.01, 0.1);
+                const maxSize = xmax * 1.2;
+                
+                // 增加计算点数以获得更平滑的曲线
+                const numPoints = 300;
+                
+                // 生成更密集的粒径序列
+                const sizes = [];
+                for(let i = 0; i <= numPoints; i++) {
+                    sizes.push(minSize * Math.exp(i * Math.log(maxSize/minSize)/numPoints));
+                }
+                
+                // 计算各模型的通过率
+                const kuzRamPassings = sizes.map(x => {
+                    const passing = Math.min(100 * (1 - Math.exp(-Math.pow(x/x50, n))), 100);
+                    return isNaN(passing) ? 0 : passing;
+                });
+                
+                const modifiedKRPassings = sizes.map(x => {
+                    const passing = calculateModifiedKuzRam(x, x50, n, xmax);
+                    return isNaN(passing) ? 0 : passing;
+                });
+                
+                const swebrecPassings = sizes.map(x => {
+                    const passing = calculateSwebrec(x, x50, b, xmax);
+                    return isNaN(passing) ? 0 : passing;
+                });
+                
+                const tcmPassings = sizes.map(x => {
+                    const passing = calculateTCM(x, x50, n, f_f);
+                    return isNaN(passing) ? 0 : passing;
+                });
+                
+                // 创建图表数据
+                const traces = [
+                    {
+                        x: sizes,
+                        y: kuzRamPassings,
+                        type: 'scatter',
+                        mode: 'lines',
+                        name: 'Kuz-Ram',
+                        line: {
+                            color: '#2196F3',
+                            width: 2
+                        }
+                    },
+                    {
+                        x: sizes,
+                        y: modifiedKRPassings,
+                        type: 'scatter',
+                        mode: 'lines',
+                        name: 'Modified Kuz-Ram',
+                        line: {
+                            color: '#4CAF50',
+                            width: 2
+                        }
+                    },
+                    {
+                        x: sizes,
+                        y: swebrecPassings,
+                        type: 'scatter',
+                        mode: 'lines',
+                        name: 'Swebrec',
+                        line: {
+                            color: '#FFC107',
+                            width: 2
+                        }
+                    },
+                    {
+                        x: sizes,
+                        y: tcmPassings,
+                        type: 'scatter',
+                        mode: 'lines',
+                        name: 'TCM',
+                        line: {
+                            color: '#FF5722',
+                            width: 2
+                        }
+                    }
+                ];
+
+                // 添加X50点标注
+                const x50_points = [
+                    {
+                        x: [x50],
+                        y: [50],
+                        mode: 'markers+text',
+                        type: 'scatter',
+                        name: 'X₅₀ (Kuz-Ram)',
+                        text: [`X₅₀=${x50.toFixed(1)}mm`],
+                        textposition: 'top right',
+                        marker: { 
+                            size: 10, 
+                            color: '#2196F3',
+                            symbol: 'diamond'
+                        },
+                        showlegend: false
+                    },
+                    {
+                        x: [x50],
+                        y: [calculateModifiedKuzRam(x50, x50, n, xmax)],
+                        mode: 'markers+text',
+                        type: 'scatter',
+                        name: 'X₅₀ (Modified KR)',
+                        text: [`MKR=${calculateModifiedKuzRam(x50, x50, n, xmax).toFixed(1)}%`],
+                        textposition: 'bottom right',
+                        marker: { 
+                            size: 10, 
+                            color: '#4CAF50',
+                            symbol: 'diamond'
+                        },
+                        showlegend: false
+                    },
+                    {
+                        x: [x50],
+                        y: [calculateSwebrec(x50, x50, b, xmax)],
+                        mode: 'markers+text',
+                        type: 'scatter',
+                        name: 'X₅₀ (Swebrec)',
+                        text: [`SWB=${calculateSwebrec(x50, x50, b, xmax).toFixed(1)}%`],
+                        textposition: 'top left',
+                        marker: { 
+                            size: 10, 
+                            color: '#FFC107',
+                            symbol: 'diamond'
+                        },
+                        showlegend: false
+                    },
+                    {
+                        x: [x50],
+                        y: [calculateTCM(x50, x50, n, f_f)],
+                        mode: 'markers+text',
+                        type: 'scatter',
+                        name: 'X₅₀ (TCM)',
+                        text: [`TCM=${calculateTCM(x50, x50, n, f_f).toFixed(1)}%`],
+                        textposition: 'bottom left',
+                        marker: { 
+                            size: 10, 
+                            color: '#FF5722',
+                            symbol: 'diamond'
+                        },
+                        showlegend: false
+                    }
+                ];
+
+                traces.push(...x50_points);
+
+                // 设置图表布局
+                const layout = {
+                    title: 'Rock Fragmentation Model Comparison',
+                    xaxis: {
+                        title: 'Fragment Size (mm)',
+                        type: 'log',
+                        range: [Math.log10(minSize), Math.log10(maxSize)],
+                        gridcolor: '#E0E0E0',
+                        tickformat: '.0f'
+                    },
+                    yaxis: {
+                        title: 'Passing Rate (%)',
+                        range: [0, 100],
+                        gridcolor: '#E0E0E0',
+                        zeroline: true
+                    },
+                    plot_bgcolor: '#FFFFFF',
+                    paper_bgcolor: '#FFFFFF',
+                    showlegend: true,
+                    legend: {
+                        x: 0.7,
+                        y: 0.1
+                    },
+                    width: 900,  // 指定图表宽度
+                    height: 500, // 指定图表高度
+                    margin: {    // 调整边距
+                        l: 50,
+                        r: 50,
+                        t: 50,
+                        b: 50
+                    }
+                };
+
+                // 绘制图表
+                console.log("Plotting chart...");
+                Plotly.newPlot('plotContainer', traces, layout, {
+                    responsive: true,
+                    scrollZoom: true,
+                    displayModeBar: true,
+                    modeBarButtonsToRemove: ['autoScale2d', 'lasso2d', 'select2d']
+                });
+
+                // 更新结果表格
+                updateResultTable(sizes, kuzRamPassings, modifiedKRPassings, swebrecPassings, tcmPassings, x50);
+                
+                console.log("Calculation completed successfully");
+            } catch (error) {
+                console.error("Error in calculate function:", error);
+                alert("An error occurred during calculation. Please check the console for details.");
             }
-            
-            // 计算各个模型的通过率
-            const kuzRamPassings = sizes.map(x => 
-                Math.min(100 * (1 - Math.exp(-Math.pow(x/x50, n))), 100)
-            );
-            
-            const modifiedKRPassings = sizes.map(x => 
-                calculateModifiedKuzRam(x, x50, n, xmax)
-            );
-            
-            const swebrecPassings = sizes.map(x => 
-                calculateSwebrec(x, x50, b, xmax)
-            );
-            
-            const tcmPassings = sizes.map(x => 
-                calculateTCM(x, x50, n, f_f)
-            );
+        }
 
-            // 找到合适的x轴范围
-            const minX = Math.min(...sizes);
-            const maxX = Math.max(...sizes);
-
-            const traces = [
-                {
-                    x: sizes,
-                    y: kuzRamPassings,
-                    type: 'scatter',
-                    mode: 'lines',
-                    name: 'Kuz-Ram',
-                    line: {
-                        color: '#2196F3',
-                        width: 2
-                    }
-                },
-                {
-                    x: sizes,
-                    y: modifiedKRPassings,
-                    type: 'scatter',
-                    mode: 'lines',
-                    name: 'Modified Kuz-Ram',
-                    line: {
-                        color: '#4CAF50',
-                        width: 2
-                    }
-                },
-                {
-                    x: sizes,
-                    y: swebrecPassings,
-                    type: 'scatter',
-                    mode: 'lines',
-                    name: 'Swebrec',
-                    line: {
-                        color: '#FFC107',
-                        width: 2
-                    }
-                },
-                {
-                    x: sizes,
-                    y: tcmPassings,
-                    type: 'scatter',
-                    mode: 'lines',
-                    name: 'TCM',
-                    line: {
-                        color: '#FF5722',
-                        width: 2
-                    }
-                }
-            ];
-
-            // 为每个模型添加X50点标注
-            const x50_points = [
-                {
-                    x: [x50],
-                    y: [50],
-                    mode: 'markers+text',
-                    type: 'scatter',
-                    name: 'X₅₀ (Kuz-Ram)',
-                    text: [`X₅₀=${x50.toFixed(1)}mm`],
-                    textposition: 'top right',
-                    marker: { 
-                        size: 10, 
-                        color: '#2196F3',
-                        symbol: 'diamond'
-                    },
-                    showlegend: false
-                },
-                {
-                    x: [x50],
-                    y: [calculateModifiedKuzRam(x50, x50, n, xmax)],
-                    mode: 'markers+text',
-                    type: 'scatter',
-                    name: 'X₅₀ (Modified KR)',
-                    marker: { 
-                        size: 10, 
-                        color: '#4CAF50',
-                        symbol: 'diamond'
-                    },
-                    showlegend: false
-                },
-                {
-                    x: [x50],
-                    y: [calculateSwebrec(x50, x50, b, xmax)],
-                    mode: 'markers+text',
-                    type: 'scatter',
-                    name: 'X₅₀ (Swebrec)',
-                    marker: { 
-                        size: 10, 
-                        color: '#FFC107',
-                        symbol: 'diamond'
-                    },
-                    showlegend: false
-                },
-                {
-                    x: [x50],
-                    y: [calculateTCM(x50, x50, n, f_f)],
-                    mode: 'markers+text',
-                    type: 'scatter',
-                    name: 'X₅₀ (TCM)',
-                    marker: { 
-                        size: 10, 
-                        color: '#FF5722',
-                        symbol: 'diamond'
-                    },
-                    showlegend: false
-                }
-            ];
-
-            // 将X50点添加到traces中
-            traces.push(...x50_points);
-
-            const layout = {
-                title: 'Rock Fragmentation Model Comparison',
-                xaxis: {
-                    title: 'Fragment Size (mm)',
-                    type: 'log',
-                    range: [Math.log10(minX), Math.log10(maxX)],
-                    gridcolor: '#E0E0E0',
-                    tickformat: '.0f'
-                },
-                yaxis: {
-                    title: 'Passing Rate (%)',
-                    range: [0, 100],
-                    gridcolor: '#E0E0E0',
-                    zeroline: true
-                },
-                plot_bgcolor: '#FFFFFF',
-                paper_bgcolor: '#FFFFFF',
-                showlegend: true,
-                legend: {
-                    x: 0.7,
-                    y: 0.1
-                },
-                // 添加交互配置
-                dragmode: 'zoom',  // 允许拖动缩放
-                hovermode: 'closest',
-                modebar: {
-                    remove: ['autoScale2d', 'lasso2d', 'select2d'], // 移除不需要的工具
-                    add: ['drawopenpath', 'eraseshape'] // 添加额外工具
-                }
-            };
-
-            Plotly.newPlot('plotContainer', traces, layout, {
-                responsive: true,  // 响应式布局
-                scrollZoom: true  // 允许滚轮缩放
-            });
-
-            // 更新表格显示
+        function updateResultTable(sizes, kr, mkr, swb, tcm, x50) {
             const tbody = document.getElementById('resultTable').getElementsByTagName('tbody')[0];
             tbody.innerHTML = '';
             
-            // 生成动态的显示点，基于x50值
             const displayPoints = [
                 x50*0.01, x50*0.1, x50*0.5, x50, x50*2, x50*5, x50*10
             ].sort((a, b) => a - b);
             
             displayPoints.forEach(size => {
-                const kr = Math.min(100 * (1 - Math.exp(-Math.pow(size/x50, n))), 100);
-                const mkr = calculateModifiedKuzRam(size, x50, n, xmax);
-                const swb = calculateSwebrec(size, x50, b, xmax);
-                const tcm = calculateTCM(size, x50, n, f_f);
+                const index = sizes.findIndex(s => s >= size);
+                if (index === -1) return;
                 
                 const row = tbody.insertRow();
-                
-                // 如果是X50点，添加特殊样式
                 if (Math.abs(size - x50) < 0.1) {
-                    row.style.backgroundColor = '#E3F2FD';
-                    row.style.fontWeight = 'bold';
+                    row.classList.add('x50-row');
                 }
                 
                 row.insertCell(0).textContent = size.toFixed(1);
-                row.insertCell(1).textContent = kr.toFixed(2);
-                row.insertCell(2).textContent = mkr.toFixed(2);
-                row.insertCell(3).textContent = swb.toFixed(2);
-                row.insertCell(4).textContent = tcm.toFixed(2);
+                row.insertCell(1).textContent = kr[index].toFixed(2);
+                row.insertCell(2).textContent = mkr[index].toFixed(2);
+                row.insertCell(3).textContent = swb[index].toFixed(2);
+                row.insertCell(4).textContent = tcm[index].toFixed(2);
             });
         }
 
-        // 页面加载完成后自动计算一次
-        document.addEventListener('DOMContentLoaded', calculate);
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log("Page loaded, initializing calculator...");
+            try {
+                calculate();
+            } catch (error) {
+                console.error("Error during initialization:", error);
+            }
+        });
     </script>
 </body>
 </html> 
