@@ -21,102 +21,10 @@ html.dataset.dark = localStorage.dark;
 <li>DuckDuckGo：0.63%</li>
 </ul>
 <p><a target="_blank" rel="noopener" href="https://www.zoloseo.com/search-engine-ranking/">参考链接</a></p>
-<h2 id="老规矩，工具先上。"><a href="#老规矩，工具先上。" class="headerlink" title="老规矩，工具先上。"></a>老规矩，工具先上。<br><span id="more"></span></h2><h2 id="快捷文件搜索-工具"><a href="#快捷文件搜索-工具" class="headerlink" title="快捷文件搜索 工具"></a>快捷文件搜索 工具</h2>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>搜索功能</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #f5f5f5;
-    }
+<p>老规矩，工具先上。<a href="/s">搜索工具</a></p>
+<span id="more"></span>
 
-    #search-form {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 20vh;
-    }
 
-    input, select, button {
-      margin: 5px;
-      padding: 8px;
-      font-size: 14px;
-    }
-
-    .button-container {
-      display: flex;
-      justify-content: center;
-    }
-
-    button {
-      background-color: #171f26;
-      color: #fff;
-      border: none;
-      cursor: pointer;
-    }
-  </style>
-</head>
-<body>
-  <form id="search-form">
-    <input type="text" id="keywords" placeholder="关键词">
-    <select id="document-type">
-      <option value="pdf">PDF</option>
-      <option value="xls">表格</option>
-      <option value="doc">DOC</option>
-      <option value="ppt">PPT</option>
-    </select>
-    <div class="button-container">
-      <button id="baidu-search">百度搜索</button>
-      <button id="google-search">谷歌搜索</button>
-      <button id="bing-search">必应搜索</button>
-      <button id="yandex-search">Yandex搜索</button>
-    </div>
-  </form>
-
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      const form = document.getElementById('search-form');
-      const keywordsInput = document.getElementById('keywords');
-      const documentTypeSelect = document.getElementById('document-type');
-      const baiduSearchButton = document.getElementById('baidu-search');
-      const googleSearchButton = document.getElementById('google-search');
-      const bingSearchButton = document.getElementById('bing-search');
-      const yandexSearchButton = document.getElementById('yandex-search');
-
-      form.addEventListener('submit', function (event) {
-        event.preventDefault();
-
-        const keywords = encodeURIComponent(keywordsInput.value);
-        const documentType = encodeURIComponent(documentTypeSelect.value);
-
-        const baiduSearchUrl = `https://www.baidu.com/s?wd=${keywords}+filetype%3A${documentType}`;
-        const googleSearchUrl = `https://www.google.com/search?q=${keywords}+filetype%3A${documentType}`;
-        const bingSearchUrl = `https://www.bing.com/search?q=${keywords}+filetype%3A${documentType}`;
-        const yandexSearchUrl = `https://yandex.com/search/?text=${keywords}+filetype%3A${documentType}`;
-
-        if (baiduSearchButton === event.submitter) {
-          window.open(baiduSearchUrl, '_blank');
-        } else if (googleSearchButton === event.submitter) {
-          window.open(googleSearchUrl, '_blank');
-        } else if (bingSearchButton === event.submitter) {
-          window.open(bingSearchUrl, '_blank');
-        } else if (yandexSearchButton === event.submitter) {
-          window.open(yandexSearchUrl, '_blank');
-        }
-      });
-    });
-  </script>
-</body>
-</html>
-
-<hr>
 <p>信息检索是一门独立的课程，里面对信息的检索有非常系统的概述。我这种学渣是做不到对那么大的框架做提炼。</p>
 <p>因为在类互联网行业待过，自以为在信息检索方面比一般人会稍微强一点点，偶尔与人沟通时也会聊到关于信息查询方面的知识，写这篇文字一是感叹于这种捅破窗户纸的东西还是有人不知道，二是有的人竟然认为这层窗户纸比愚公移山还难。诚然，每个人的世界都是局限的，这是个哲学问题，我无法探讨。但是打破<strong>信息茧房</strong>并不是那么困难，只需要使用一点点技巧，了解一点点知识，我们的搜索能力就能大步提高。</p>
 <p>注意，检索到信息，它最核心的作用的打破<strong>信息茧房，</strong>这不代表你具备了信息描述的能力，比如你可以轻松搜索到单片机的设计工艺，但不代表你真的会设计单片机。检索信息仅仅提供了可能性的基础。</p>
@@ -173,4 +81,4 @@ html.dataset.dark = localStorage.dark;
 <p>1，找到你要解决的问题【行业英文咨询】<br>2，导向第二个信息【行业的英文术语】<br>3，导向第三个信息【背单词的常见方法】<br>4，导向第四个信息【单词的发音规律】</p>
 <p>….</p>
 <p>这个过程就是接近你想要的信息（为了解决问题），是的，他不是独立的一个信息，而是一系列的信息等你分布消化，且这个过程并非发生在一瞬间，而是和你互动。</p>
-</div><div class="tags"><ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/share/" rel="tag">share</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/tools/" rel="tag">tools</a></li></ul></div><div class="post-nav"><a class="pre" href="/2023/10/06/farewell/">纪念劉上豪老师</a><a class="next" href="/2023/07/29/Bgp003/">旧记事</a></div></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><form class="search-form" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank"><input type="text" name="q" maxlength="20" placeholder="Search"/><input type="hidden" name="sitesearch" value="https://ilyfei.com"/></form></div><div class="widget"><div class="author-info"><a class="info-avatar" href="/about/" title="About"><img class="nofancybox" src="/img/avatar.png"/></a><p>I am stupid like an idiot.</p><a class="info-icon" href="mailto:hi@ilyfei.com" title="Email" target="_blank" style="margin-inline:5px"> <i class="fa fa-envelope-square" style="margin-inline:5px"></i></a><a class="info-icon" href="/atom.xml" title="RSS" target="_blank" style="margin-inline:5px"> <i class="fa fa-rss-square" style="margin-inline:5px"></i></a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> Categories</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Data/">Data</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Engineer/">Engineer</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Personal/">Personal</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> Tags</i></div><div class="tagcloud"><a href="/tags/share/" style="font-size: 15px;">share</a> <a href="/tags/Life/" style="font-size: 15px;">Life</a> <a href="/tags/tools/" style="font-size: 15px;">tools</a> <a href="/tags/Data-Analyst/" style="font-size: 15px;">Data Analyst</a> <a href="/tags/Reading/" style="font-size: 15px;">Reading</a> <a href="/tags/%E8%B7%A8%E5%A2%83/" style="font-size: 15px;">跨境</a> <a href="/tags/%E5%B7%A5%E4%BD%9C%E6%84%9F%E6%82%9F/" style="font-size: 15px;">工作感悟</a> <a href="/tags/Share/" style="font-size: 15px;">Share</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> Recent</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2024/10/31/dataanalyst/">招聘市场分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2024/05/09/deepseekapi/">Googlesheet调用deepseek的API</a></li><li class="post-list-item"><a class="post-list-link" href="/2024/04/05/macro202405/">宏观研报</a></li><li class="post-list-item"><a class="post-list-link" href="/2024/03/28/20240328/">也要接受平凡的剧本</a></li><li class="post-list-item"><a class="post-list-link" href="/2023/10/07/farewelltw/">紀念劉上豪老師</a></li><li class="post-list-item"><a class="post-list-link" href="/2023/10/06/farewell/">纪念劉上豪老师</a></li><li class="post-list-item"><a class="post-list-link" href="/2023/08/22/share006/">如何提高信息检索能力</a></li><li class="post-list-item"><a class="post-list-link" href="/2023/07/29/Bgp003/">旧记事</a></li><li class="post-list-item"><a class="post-list-link" href="/2023/07/23/amazonoe/">利用亚马逊的Product Opportunity Explorer挖掘需求的垄断程度</a></li><li class="post-list-item"><a class="post-list-link" href="/2023/07/13/amazon01/">Amazon 查新工具</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> Links</i></div></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2024 <a href="/." rel="nofollow">Engineer &amp; Data.</a> Powered by<a rel="nofollow" target="_blank" href=""> ilyfei.</a><a rel="nofollow" target="_blank" href=""> </a></div></div></div><script type="text/javascript" src="/js/copycode.js?v=1.0.0" successtext="Copy Successed!"></script><link rel="stylesheet" type="text/css" href="/css/copycode.css?v=1.0.0"><script type="text/javascript" src="/js/codeblock-resizer.js?v=1.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=1.0.0"></script></div></body></html>
+</div><div class="tags"><ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/share/" rel="tag">share</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/tools/" rel="tag">tools</a></li></ul></div><div class="post-nav"><a class="pre" href="/2023/10/06/farewell/">纪念劉上豪老师</a><a class="next" href="/2023/07/29/Bgp003/">旧记事</a></div></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><div class="author-info"><a class="info-avatar" href="/about/" title="About"><img class="nofancybox" src="/img/avatar.png"/></a><p>I am stupid like an idiot.</p><a class="info-icon" href="mailto:hi@ilyfei.com" title="Email" target="_blank" style="margin-inline:5px"> <i class="fa fa-envelope-square" style="margin-inline:5px"></i></a><a class="info-icon" href="/atom.xml" title="RSS" target="_blank" style="margin-inline:5px"> <i class="fa fa-rss-square" style="margin-inline:5px"></i></a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> Categories</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Data/">Data</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Engineer/">Engineer</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Personal/">Personal</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> Tags</i></div><div class="tagcloud"><a href="/tags/share/" style="font-size: 15px;">share</a> <a href="/tags/Life/" style="font-size: 15px;">Life</a> <a href="/tags/tools/" style="font-size: 15px;">tools</a> <a href="/tags/Data-Analyst/" style="font-size: 15px;">Data Analyst</a> <a href="/tags/Reading/" style="font-size: 15px;">Reading</a> <a href="/tags/%E8%B7%A8%E5%A2%83/" style="font-size: 15px;">跨境</a> <a href="/tags/%E5%B7%A5%E4%BD%9C%E6%84%9F%E6%82%9F/" style="font-size: 15px;">工作感悟</a> <a href="/tags/Share/" style="font-size: 15px;">Share</a></div></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2024 <a href="/." rel="nofollow">Engineer &amp; Data.</a> Powered by<a rel="nofollow" target="_blank" href=""> ilyfei.</a><a rel="nofollow" target="_blank" href=""> </a></div></div></div><script type="text/javascript" src="/js/copycode.js?v=1.0.0" successtext="Copy Successed!"></script><link rel="stylesheet" type="text/css" href="/css/copycode.css?v=1.0.0"><script type="text/javascript" src="/js/codeblock-resizer.js?v=1.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=1.0.0"></script></div></body></html>
