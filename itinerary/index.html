@@ -1,0 +1,491 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flight Reservation Generator</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #34495e;
+            --accent-color: #3498db;
+            --background-color: #f5f6fa;
+            --card-background: #ffffff;
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --card-hover-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+            --text-color: #2c3e50;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .form-card {
+            background: var(--card-background);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s ease;
+        }
+
+        .form-card:hover {
+            box-shadow: var(--card-hover-shadow);
+        }
+
+        .section-title {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--accent-color);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+        }
+
+        .submit-btn {
+            background-color: var(--accent-color);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        .submit-btn:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        #reservation {
+            background: var(--card-background);
+            border-radius: 15px;
+            padding: 3rem 4rem;
+            margin: 2rem auto;
+            box-shadow: var(--card-shadow);
+            font-family: 'Courier New', monospace;
+            line-height: 2;
+            max-width: 900px;
+            font-size: 14px;
+        }
+
+        #downloadButton {
+            background-color: #27ae60;
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        #downloadButton:hover {
+            background-color: #219a52;
+            transform: translateY(-2px);
+        }
+
+        .reservation-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--primary-color);
+        }
+
+        .reservation-section {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px dashed #ddd;
+        }
+
+        .reservation-section:last-child {
+            border-bottom: none;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="form-card">
+            <h1 class="section-title">Flight Reservation Generator</h1>
+            <form id="reservationForm">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="lastName">Last Name</label>
+                        <input type="text" id="lastName" required placeholder="Enter last name" value="SMITH">
+                    </div>
+                    <div class="form-group">
+                        <label for="firstName">First Name</label>
+                        <input type="text" id="firstName" required placeholder="Enter first name" value="John">
+                    </div>
+                    <div class="form-group">
+                        <label for="passport">Passport Number</label>
+                        <input type="text" id="passport" required placeholder="Enter passport number" value="P123456789">
+                    </div>
+                    <div class="form-group">
+                        <label for="nationality">Nationality</label>
+                        <input type="text" id="nationality" required placeholder="Enter nationality" value="USA">
+                    </div>
+                    <div class="form-group">
+                        <label for="dob">Date of Birth</label>
+                        <input type="date" id="dob" required value="1990-01-01">
+                    </div>
+                    <div class="form-group">
+                        <label for="departureCity">Departure City</label>
+                        <input type="text" id="departureCity" required placeholder="e.g., London (LHR)" value="New York (JFK)">
+                    </div>
+                    <div class="form-group">
+                        <label for="arrivalCity">Arrival City</label>
+                        <input type="text" id="arrivalCity" required placeholder="e.g., Paris (CDG)" value="London (LHR)">
+                    </div>
+                    <div class="form-group">
+                        <label for="flightNumber">Flight Number</label>
+                        <input type="text" id="flightNumber" required placeholder="e.g., BA123" value="BA288">
+                    </div>
+                    <div class="form-group">
+                        <label for="departureDate">Departure Date</label>
+                        <input type="date" id="departureDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="departureTime">Departure Time</label>
+                        <input type="time" id="departureTime" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="arrivalTime">Arrival Time</label>
+                        <input type="time" id="arrivalTime" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="seatClass">Class of Service</label>
+                        <select id="seatClass" required>
+                            <option value="ECONOMY">Economy</option>
+                            <option value="BUSINESS">Business</option>
+                            <option value="FIRST">First Class</option>
+                        </select>
+                    </div>
+                </div>
+                <button type="submit" class="submit-btn">Generate Reservation</button>
+            </form>
+        </div>
+
+        <div id="reservation" style="display:none;">
+            <div class="reservation-header">
+                <h2>Flight Reservation Confirmation</h2>
+            </div>
+        </div>
+        <button id="downloadButton" onclick="downloadPDF()" style="display:none;">Download Reservation as PDF</button>
+    </div>
+
+    <script>
+        document.getElementById('reservationForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const lastName = document.getElementById('lastName').value.toUpperCase();
+            const firstName = document.getElementById('firstName').value;
+            const passport = document.getElementById('passport').value;
+            const nationality = document.getElementById('nationality').value;
+            const dob = document.getElementById('dob').value;
+            const departureCity = document.getElementById('departureCity').value;
+            const arrivalCity = document.getElementById('arrivalCity').value;
+            const flightNumber = document.getElementById('flightNumber').value.toUpperCase();
+            const departureDate = document.getElementById('departureDate').value;
+            const departureTime = document.getElementById('departureTime').value;
+            const arrivalTime = document.getElementById('arrivalTime').value;
+            const seatClass = document.getElementById('seatClass').value;
+            
+            // 计算是否需要显示 +1
+            const arrivalDateMark = getArrivalDate(departureDate, departureTime, arrivalTime);
+            
+            const bookingRef = 'PNR' + Math.random().toString(36).substr(2, 6).toUpperCase();
+            const ticketNumber = '235' + Math.random().toString().substr(2, 10);
+            
+            const reservationText = `
+╔══════════════════════════════════════════════════════════════════╗
+                    ELECTRONIC TICKET AND ITINERARY                
+╚══════════════════════════════════════════════════════════════════╝
+
+BOOKING REFERENCE: ${bookingRef}
+TICKET NUMBER: ${ticketNumber}
+
+PASSENGER INFORMATION
+-------------------
+Name: ${lastName}/${firstName}
+Passport: ${passport}
+Nationality: ${nationality}
+Date of Birth: ${formatDate(dob)}
+
+FLIGHT DETAILS
+-------------
+Flight: ${flightNumber}
+From: ${departureCity}
+To: ${arrivalCity}
+Date: ${formatDate(departureDate)}
+Departure: ${formatTime(departureTime)}
+Arrival: ${formatTime(arrivalTime)}${arrivalDateMark}
+Class: ${seatClass}
+
+FARE INFORMATION
+---------------
+Fare: USD ${calculateFare(seatClass)}
+Tax: USD ${calculateTax(seatClass)}
+Total: USD ${calculateTotal(seatClass)}
+
+BAGGAGE ALLOWANCE
+----------------
+Cabin: 7 KG
+Checked: ${getBaggageAllowance(seatClass)}
+
+IMPORTANT INFORMATION
+-------------------
+• Please arrive at the airport at least 3 hours before departure
+• Valid passport required for international travel
+• Check-in closes 60 minutes before departure
+
+For assistance contact:
+Email: support@ilyfei.com
+Phone: +1 (423) 423-7567
+Emergency: +1 (402) 523-4868
+
+`;
+
+            document.getElementById('reservation').innerHTML = reservationText.replace(/\n/g, '<br>');
+            document.getElementById('reservation').style.display = 'block';
+            document.getElementById('downloadButton').style.display = 'block';
+            window.reservationText = reservationText.trim();
+        });
+
+        function formatDate(dateStr) {
+            return new Date(dateStr).toLocaleDateString('en-GB', {
+                day: '2-digit',
+                month: 'short',
+                year: 'numeric'
+            });
+        }
+
+        function formatTime(timeStr) {
+            return timeStr.substr(0, 5);
+        }
+
+        function calculateFare(seatClass) {
+            const baseFares = {
+                'ECONOMY': 500,
+                'BUSINESS': 2000,
+                'FIRST': 5000
+            };
+            return baseFares[seatClass].toFixed(2);
+        }
+
+        function calculateTax(seatClass) {
+            return (calculateFare(seatClass) * 0.1).toFixed(2);
+        }
+
+        function calculateTotal(seatClass) {
+            return (parseFloat(calculateFare(seatClass)) + parseFloat(calculateTax(seatClass))).toFixed(2);
+        }
+
+        function getBaggageAllowance(seatClass) {
+            const allowance = {
+                'ECONOMY': '23 KG',
+                'BUSINESS': '32 KG',
+                'FIRST': '40 KG'
+            };
+            return allowance[seatClass];
+        }
+
+        async function downloadPDF() {
+            try {
+                const element = document.getElementById('reservation');
+                
+                // 临时修改样式以优化截图
+                const originalStyle = element.style.cssText;
+                element.style.backgroundColor = 'white';
+                element.style.padding = '60px';
+                element.style.boxShadow = 'none';
+                element.style.borderRadius = '0';
+                element.style.width = '900px';
+                element.style.margin = '0 auto';
+                element.style.borderBottom = 'none';
+                element.style.fontSize = '14px';
+                element.style.lineHeight = '1.8';
+                
+                // 配置 html2canvas 选项
+                const canvas = await html2canvas(element, {
+                    scale: 2,
+                    useCORS: true,
+                    logging: false,
+                    backgroundColor: null,
+                    imageTimeout: 0,
+                    removeContainer: true,
+                    onclone: (document) => {
+                        const element = document.getElementById('reservation');
+                        element.style.display = 'block';
+                        element.style.fontSize = '14px';
+                        element.style.lineHeight = '1.8';
+                        element.style.borderBottom = 'none';
+                        element.style.boxShadow = 'none';
+                        element.style.border = 'none';
+                        element.style.letterSpacing = '0.5px';
+                    }
+                });
+
+                // 创建 PDF（A4 大小）
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF({
+                    orientation: 'portrait',
+                    unit: 'mm',
+                    format: 'a4'
+                });
+
+                // 计算图像尺寸，保持宽高比
+                const pageWidth = doc.internal.pageSize.getWidth();
+                const pageHeight = doc.internal.pageSize.getHeight();
+                
+                // 调整边距
+                const margin = 15;
+                const availableWidth = pageWidth - (margin * 1);
+                const availableHeight = pageHeight - (margin * 1);
+                
+                const imgWidth = canvas.width;
+                const imgHeight = canvas.height;
+                const ratio = Math.min(availableWidth / imgWidth, availableHeight / imgHeight);
+                
+                // 计算居中位置
+                const x = margin + (availableWidth - imgWidth * ratio) / 2;
+                const y = margin + (availableHeight - imgHeight * ratio) / 2;
+
+                // 添加图像到 PDF，保持比例
+                doc.addImage(
+                    canvas.toDataURL('image/jpeg', 1),
+                    'JPEG',
+                    x,
+                    y,
+                    imgWidth * ratio,
+                    imgHeight * ratio,
+                    undefined,
+                    'FAST'
+                );
+
+                // 保存文件
+                doc.save('Flight_Reservation.pdf');
+
+                // 恢复原始样式
+                element.style.cssText = originalStyle;
+
+            } catch (error) {
+                console.error('PDF generation failed:', error);
+                alert('Failed to generate PDF. Please try again.');
+            }
+        }
+
+        function checkJsPDF() {
+            if (typeof window.jspdf === 'undefined') {
+                console.error('jsPDF not loaded');
+                return false;
+            }
+            console.log('jsPDF loaded successfully');
+            return true;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const today = new Date();
+            const tomorrow = new Date(today);
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            
+            const departureDate = document.getElementById('departureDate');
+            departureDate.value = tomorrow.toISOString().split('T')[0];
+            departureDate.min = today.toISOString().split('T')[0];
+
+            document.getElementById('departureTime').value = '10:00';
+            document.getElementById('arrivalTime').value = '12:00';
+
+            checkJsPDF();
+        });
+
+        // 添加新的辅助函数来处理到达日期
+        function getArrivalDate(departureDate, departureTime, arrivalTime) {
+            const depDate = new Date(departureDate);
+            const [depHours, depMinutes] = departureTime.split(':').map(Number);
+            const [arrHours, arrMinutes] = arrivalTime.split(':').map(Number);
+            
+            // 创建出发和到达的完整时间对象
+            const depDateTime = new Date(depDate);
+            depDateTime.setHours(depHours, depMinutes, 0);
+            
+            const arrDateTime = new Date(depDate);
+            arrDateTime.setHours(arrHours, arrMinutes, 0);
+            
+            // 如果到达时间小于出发时间，说明是第二天
+            if (arrDateTime < depDateTime) {
+                arrDateTime.setDate(arrDateTime.getDate() + 1);
+            }
+            
+            // 判断是否需要显示+1
+            const dayDiff = arrDateTime.getDate() - depDateTime.getDate();
+            return dayDiff > 0 ? ' (+1)' : '';
+        }
+    </script>
+</body>
+</html>
+

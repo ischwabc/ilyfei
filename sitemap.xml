@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://ilyfei.com/itinerary/index.html</loc>
+    
+    <lastmod>2024-11-02</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://ilyfei.com/about/index.html</loc>
     
     <lastmod>2024-11-02</lastmod>
@@ -104,15 +113,6 @@
     <loc>https://ilyfei.com/eng/index.html</loc>
     
     <lastmod>2024-10-16</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://ilyfei.com/pdfcreate/index.html</loc>
-    
-    <lastmod>2024-10-12</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -326,14 +326,14 @@
 
   
   <url>
-    <loc>https://ilyfei.com/tags/share/</loc>
+    <loc>https://ilyfei.com/tags/Life/</loc>
     <lastmod>2024-11-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://ilyfei.com/tags/Life/</loc>
+    <loc>https://ilyfei.com/tags/share/</loc>
     <lastmod>2024-11-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
