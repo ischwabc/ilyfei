@@ -2,6 +2,24 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://ilyfei.com/via/index.html</loc>
+    
+    <lastmod>2024-11-02</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://ilyfei.com/via.html</loc>
+    
+    <lastmod>2024-11-02</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://ilyfei.com/2024/10/31/dataanalyst/</loc>
     
     <lastmod>2024-11-01</lastmod>
@@ -32,15 +50,6 @@
     <loc>https://ilyfei.com/timok/index.html</loc>
     
     <lastmod>2024-10-30</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://ilyfei.com/earthquake_simulation.html</loc>
-    
-    <lastmod>2024-10-19</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -301,7 +310,7 @@
 
   <url>
     <loc>https://ilyfei.com/</loc>
-    <lastmod>2024-11-01</lastmod>
+    <lastmod>2024-11-02</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -309,56 +318,56 @@
   
   <url>
     <loc>https://ilyfei.com/tags/share/</loc>
-    <lastmod>2024-11-01</lastmod>
+    <lastmod>2024-11-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://ilyfei.com/tags/Life/</loc>
-    <lastmod>2024-11-01</lastmod>
+    <lastmod>2024-11-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://ilyfei.com/tags/tools/</loc>
-    <lastmod>2024-11-01</lastmod>
+    <lastmod>2024-11-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://ilyfei.com/tags/Data-Analyst/</loc>
-    <lastmod>2024-11-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://ilyfei.com/tags/%E8%B7%A8%E5%A2%83/</loc>
-    <lastmod>2024-11-01</lastmod>
+    <lastmod>2024-11-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://ilyfei.com/tags/Reading/</loc>
-    <lastmod>2024-11-01</lastmod>
+    <lastmod>2024-11-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://ilyfei.com/tags/%E8%B7%A8%E5%A2%83/</loc>
+    <lastmod>2024-11-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://ilyfei.com/tags/%E5%B7%A5%E4%BD%9C%E6%84%9F%E6%82%9F/</loc>
-    <lastmod>2024-11-01</lastmod>
+    <lastmod>2024-11-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://ilyfei.com/tags/Share/</loc>
-    <lastmod>2024-11-01</lastmod>
+    <lastmod>2024-11-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
@@ -367,21 +376,21 @@
   
   <url>
     <loc>https://ilyfei.com/categories/Personal/</loc>
-    <lastmod>2024-11-01</lastmod>
+    <lastmod>2024-11-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://ilyfei.com/categories/Engineer/</loc>
-    <lastmod>2024-11-01</lastmod>
+    <lastmod>2024-11-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://ilyfei.com/categories/Data/</loc>
-    <lastmod>2024-11-01</lastmod>
+    <lastmod>2024-11-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
