@@ -1,0 +1,530 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Rock Fragmentation Model Calculator</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #2196F3;
+            --secondary-color: #f4f4f4;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .formula-section {
+            background-color: var(--secondary-color);
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+
+        .formula {
+            font-family: "Times New Roman", serif;
+            font-size: 1.1em;
+            margin: 10px 0;
+        }
+
+        .input-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        #plotContainer {
+            margin: 20px 0;
+            height: 500px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: var(--secondary-color);
+        }
+
+        /* 添加X50点突出显示样式 */
+        .x50-point {
+            background-color: #E3F2FD;
+            font-weight: bold;
+        }
+
+        /* 表格中X50行的样式 */
+        tr.x50-row {
+            background-color: #E3F2FD !important;
+            font-weight: bold;
+        }
+
+        /* 悬停效果 */
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Rock Fragmentation Model Calculator</h1>
+
+        <div class="formula-section">
+            <h2>Calculation Formulas</h2>
+            
+            <!-- Kuz-Ram模型 -->
+            <div class="formula">
+                <h3>Kuz-Ram Model</h3>
+                <p>X<sub>50</sub> = A × K<sup>-0.8</sup> × Q<sup>1/6</sup> × (115/RWS)<sup>19/30</sup></p>
+                <p>R(x) = 100 × (1 - e<sup>-(x/X<sub>50</sub>)<sup>n</sup></sup>)</p>
+                <p>Where:</p>
+                <ul>
+                    <li>X<sub>50</sub> = Average Particle Size (cm)</li>
+                    <li>A = Rock Factor</li>
+                    <li>K = Charge per Unit Volume (kg/m³)</li>
+                    <li>Q = Charge per Hole (kg)</li>
+                    <li>RWS = Relative Weight Strength of Explosive</li>
+                </ul>
+            </div>
+
+            <!-- Modified Kuz-Ram模型 -->
+            <div class="formula">
+                <h3>Modified Kuz-Ram Model</h3>
+                <p>R(x) = R<sub>KR</sub>(x) × f(x/x<sub>max</sub>)</p>
+                <p>Where:</p>
+                <ul>
+                    <li>R<sub>KR</sub>(x) = Predicted Value from Kuz-Ram Model</li>
+                    <li>f(x/x<sub>max</sub>) = Correction Factor</li>
+                    <li>x<sub>max</sub> = Maximum Particle Size</li>
+                </ul>
+            </div>
+
+            <!-- Swebrec模型 -->
+            <div class="formula">
+                <h3>Swebrec Model</h3>
+                <p>P(x) = 100 / (1 + (ln(x<sub>max</sub>/x)/ln(x<sub>max</sub>/x<sub>50</sub>))<sup>b</sup>)</p>
+                <p>Where:</p>
+                <ul>
+                    <li>x<sub>max</sub> = Maximum Particle Size</li>
+                    <li>x<sub>50</sub> = Average Particle Size</li>
+                    <li>b = Shape Parameter of Curve</li>
+                </ul>
+            </div>
+
+            <!-- TCM模型 -->
+            <div class="formula">
+                <h3>Two-Component Model (TCM)</h3>
+                <p>P(x) = f<sub>f</sub>P<sub>f</sub>(x) + (1-f<sub>f</sub>)P<sub>c</sub>(x)</p>
+                <p>Where:</p>
+                <ul>
+                    <li>f<sub>f</sub> = Proportion of Fine Particles</li>
+                    <li>P<sub>f</sub>(x) = Distribution of Fine Particles</li>
+                    <li>P<sub>c</sub>(x) = Distribution of Coarse Particles</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="input-grid">
+            <div class="input-group">
+                <label>Rock Density (kg/m³)</label>
+                <input type="number" id="rockDensity" value="2650">
+            </div>
+            <div class="input-group">
+                <label>UCS (MPa)</label>
+                <input type="number" id="ucs" value="100">
+            </div>
+            <div class="input-group">
+                <label>RMD (RMD)</label>
+                <input type="number" id="rmd" value="50">
+            </div>
+            <div class="input-group">
+                <label>JF (JF)</label>
+                <input type="number" id="jf" value="10">
+            </div>
+            <div class="input-group">
+                <label>RWS (RWS)</label>
+                <input type="number" id="rws" value="100">
+            </div>
+            <div class="input-group">
+                <label>Charge (kg)</label>
+                <input type="number" id="charge" value="50">
+            </div>
+            <div class="input-group">
+                <label>Burden (m)</label>
+                <input type="number" id="burden" value="3">
+            </div>
+            <div class="input-group">
+                <label>Spacing (m)</label>
+                <input type="number" id="spacing" value="4">
+            </div>
+            <div class="input-group">
+                <label>Bench Height (m)</label>
+                <input type="number" id="benchHeight" value="15">
+            </div>
+            <div class="input-group">
+                <label>Delay (ms)</label>
+                <input type="number" id="delay" value="25">
+            </div>
+        </div>
+
+        <button onclick="calculate()">Calculate Distribution</button>
+
+        <div id="plotContainer"></div>
+
+        <table id="resultTable">
+            <thead>
+                <tr>
+                    <th>Size (mm)</th>
+                    <th>Kuz-Ram Passing (%)</th>
+                    <th>Modified KR Passing (%)</th>
+                    <th>Swebrec Passing (%)</th>
+                    <th>TCM Passing (%)</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+    <script>
+        function calculateRockFactor() {
+            const rmd = parseFloat(document.getElementById('rmd').value);
+            const jf = parseFloat(document.getElementById('jf').value);
+            const ucs = parseFloat(document.getElementById('ucs').value);
+            return 0.06 * (rmd + jf + ucs);
+        }
+
+        function calculateX50() {
+            const A = calculateRockFactor();
+            const Q = parseFloat(document.getElementById('charge').value);
+            const rws = parseFloat(document.getElementById('rws').value);
+            const burden = parseFloat(document.getElementById('burden').value);
+            const spacing = parseFloat(document.getElementById('spacing').value);
+            
+            const K = Q / (burden * spacing * 15); // 假设台阶高度为15m
+            return A * Math.pow(K, -0.8) * Math.pow(Q, 1/6) * Math.pow(115/rws, 19/30);
+        }
+
+        function calculateUniformityIndex() {
+            const burden = parseFloat(document.getElementById('burden').value);
+            const spacing = parseFloat(document.getElementById('spacing').value);
+            const benchHeight = parseFloat(document.getElementById('benchHeight').value);
+            const delay = parseFloat(document.getElementById('delay').value);
+            const holeLength = benchHeight * 1.15;
+            
+            // 假设炮孔直径为90mm
+            const holeDiameter = 0.09;
+            
+            // 更新的均匀度指数计算公式，考虑延时时间的影响
+            let n = (2.2 - 14 * burden/holeDiameter) * 
+                    (1 - spacing/burden) * 
+                    Math.sqrt(holeLength/burden) * 
+                    (1 - delay/1000) * // 延时影响因子
+                    (1 - 0/3);
+            
+            return Math.max(0.7, Math.min(n, 2.0));
+        }
+
+        // Modified Kuz-Ram模型计算
+        function calculateModifiedKuzRam(x, x50, n, xmax) {
+            // 修改后的 Modified Kuz-Ram 计算
+            if (x >= xmax) {
+                return 100;
+            }
+            
+            // Rosin-Rammler 分布
+            const R = 1 - Math.exp(-Math.pow(x/x50, n));
+            
+            // Cunningham 修正因子 (1990)
+            // 使用更平滑的修正因子，避免曲线下降
+            const f = Math.exp(-0.001 * Math.pow(x/xmax, 3));
+            
+            // 计算最终通过率
+            return Math.min(100 * R * f, 100);
+        }
+
+        // Swebrec模型计算
+        function calculateSwebrec(x, x50, b, xmax) {
+            const ln_quotient = Math.log(xmax/x) / Math.log(xmax/x50);
+            return Math.min(100 / (1 + Math.pow(ln_quotient, b)), 100);
+        }
+
+        // TCM模型计算
+        function calculateTCM(x, x50, n, f_f) {
+            const coarse = 100 * (1 - Math.exp(-Math.pow(x/x50, n)));
+            const fines = 100 * (1 - Math.exp(-Math.pow(x/(x50/10), n*1.5)));
+            return Math.min(f_f * fines + (1 - f_f) * coarse, 100);
+        }
+
+        function calculate() {
+            const x50 = calculateX50() * 10; // 转换为mm
+            const n = calculateUniformityIndex();
+            const xmax = x50 * 5; // 使用更合理的最大粒径估计值
+            const b = 3.0; // Swebrec模型的形状参数
+            const f_f = 0.3; // TCM模型的细粒含量系数
+            
+            // 动态生成粒径序列，基于计算出的x50值
+            const minSize = x50 * 0.01; // 最小粒径为x50的1%
+            const maxSize = x50 * 20;   // 最大粒径为x50的20倍
+            
+            const sizes = [];
+            for(let i = 0; i <= 100; i++) {
+                sizes.push(minSize * Math.exp(i * Math.log(maxSize/minSize)/100));
+            }
+            
+            // 计算各个模型的通过率
+            const kuzRamPassings = sizes.map(x => 
+                Math.min(100 * (1 - Math.exp(-Math.pow(x/x50, n))), 100)
+            );
+            
+            const modifiedKRPassings = sizes.map(x => 
+                calculateModifiedKuzRam(x, x50, n, xmax)
+            );
+            
+            const swebrecPassings = sizes.map(x => 
+                calculateSwebrec(x, x50, b, xmax)
+            );
+            
+            const tcmPassings = sizes.map(x => 
+                calculateTCM(x, x50, n, f_f)
+            );
+
+            // 找到合适的x轴范围
+            const minX = Math.min(...sizes);
+            const maxX = Math.max(...sizes);
+
+            const traces = [
+                {
+                    x: sizes,
+                    y: kuzRamPassings,
+                    type: 'scatter',
+                    mode: 'lines',
+                    name: 'Kuz-Ram',
+                    line: {
+                        color: '#2196F3',
+                        width: 2
+                    }
+                },
+                {
+                    x: sizes,
+                    y: modifiedKRPassings,
+                    type: 'scatter',
+                    mode: 'lines',
+                    name: 'Modified Kuz-Ram',
+                    line: {
+                        color: '#4CAF50',
+                        width: 2
+                    }
+                },
+                {
+                    x: sizes,
+                    y: swebrecPassings,
+                    type: 'scatter',
+                    mode: 'lines',
+                    name: 'Swebrec',
+                    line: {
+                        color: '#FFC107',
+                        width: 2
+                    }
+                },
+                {
+                    x: sizes,
+                    y: tcmPassings,
+                    type: 'scatter',
+                    mode: 'lines',
+                    name: 'TCM',
+                    line: {
+                        color: '#FF5722',
+                        width: 2
+                    }
+                }
+            ];
+
+            // 为每个模型添加X50点标注
+            const x50_points = [
+                {
+                    x: [x50],
+                    y: [50],
+                    mode: 'markers+text',
+                    type: 'scatter',
+                    name: 'X₅₀ (Kuz-Ram)',
+                    text: [`X₅₀=${x50.toFixed(1)}mm`],
+                    textposition: 'top right',
+                    marker: { 
+                        size: 10, 
+                        color: '#2196F3',
+                        symbol: 'diamond'
+                    },
+                    showlegend: false
+                },
+                {
+                    x: [x50],
+                    y: [calculateModifiedKuzRam(x50, x50, n, xmax)],
+                    mode: 'markers+text',
+                    type: 'scatter',
+                    name: 'X₅₀ (Modified KR)',
+                    marker: { 
+                        size: 10, 
+                        color: '#4CAF50',
+                        symbol: 'diamond'
+                    },
+                    showlegend: false
+                },
+                {
+                    x: [x50],
+                    y: [calculateSwebrec(x50, x50, b, xmax)],
+                    mode: 'markers+text',
+                    type: 'scatter',
+                    name: 'X₅₀ (Swebrec)',
+                    marker: { 
+                        size: 10, 
+                        color: '#FFC107',
+                        symbol: 'diamond'
+                    },
+                    showlegend: false
+                },
+                {
+                    x: [x50],
+                    y: [calculateTCM(x50, x50, n, f_f)],
+                    mode: 'markers+text',
+                    type: 'scatter',
+                    name: 'X₅₀ (TCM)',
+                    marker: { 
+                        size: 10, 
+                        color: '#FF5722',
+                        symbol: 'diamond'
+                    },
+                    showlegend: false
+                }
+            ];
+
+            // 将X50点添加到traces中
+            traces.push(...x50_points);
+
+            const layout = {
+                title: 'Rock Fragmentation Model Comparison',
+                xaxis: {
+                    title: 'Fragment Size (mm)',
+                    type: 'log',
+                    range: [Math.log10(minX), Math.log10(maxX)],
+                    gridcolor: '#E0E0E0',
+                    tickformat: '.0f'
+                },
+                yaxis: {
+                    title: 'Passing Rate (%)',
+                    range: [0, 100],
+                    gridcolor: '#E0E0E0',
+                    zeroline: true
+                },
+                plot_bgcolor: '#FFFFFF',
+                paper_bgcolor: '#FFFFFF',
+                showlegend: true,
+                legend: {
+                    x: 0.7,
+                    y: 0.1
+                },
+                // 添加交互配置
+                dragmode: 'zoom',  // 允许拖动缩放
+                hovermode: 'closest',
+                modebar: {
+                    remove: ['autoScale2d', 'lasso2d', 'select2d'], // 移除不需要的工具
+                    add: ['drawopenpath', 'eraseshape'] // 添加额外工具
+                }
+            };
+
+            Plotly.newPlot('plotContainer', traces, layout, {
+                responsive: true,  // 响应式布局
+                scrollZoom: true  // 允许滚轮缩放
+            });
+
+            // 更新表格显示
+            const tbody = document.getElementById('resultTable').getElementsByTagName('tbody')[0];
+            tbody.innerHTML = '';
+            
+            // 生成动态的显示点，基于x50值
+            const displayPoints = [
+                x50*0.01, x50*0.1, x50*0.5, x50, x50*2, x50*5, x50*10
+            ].sort((a, b) => a - b);
+            
+            displayPoints.forEach(size => {
+                const kr = Math.min(100 * (1 - Math.exp(-Math.pow(size/x50, n))), 100);
+                const mkr = calculateModifiedKuzRam(size, x50, n, xmax);
+                const swb = calculateSwebrec(size, x50, b, xmax);
+                const tcm = calculateTCM(size, x50, n, f_f);
+                
+                const row = tbody.insertRow();
+                
+                // 如果是X50点，添加特殊样式
+                if (Math.abs(size - x50) < 0.1) {
+                    row.style.backgroundColor = '#E3F2FD';
+                    row.style.fontWeight = 'bold';
+                }
+                
+                row.insertCell(0).textContent = size.toFixed(1);
+                row.insertCell(1).textContent = kr.toFixed(2);
+                row.insertCell(2).textContent = mkr.toFixed(2);
+                row.insertCell(3).textContent = swb.toFixed(2);
+                row.insertCell(4).textContent = tcm.toFixed(2);
+            });
+        }
+
+        // 页面加载完成后自动计算一次
+        document.addEventListener('DOMContentLoaded', calculate);
+    </script>
+</body>
+</html> 
+
+
+<p><a href="/voidrate/">VOID RATE IN TUNNEL</a></p>
+<p><strong>Disclaimer</strong><br><small>All tools and knowledge presented on this website stem from my experiences and education at <a href="https://www.upm.es/">UNIVERSIDAD POLITÉCNICA DE MADRID</a>. I am deeply grateful to my professors, Jose Sanchidrian and Pablo Segarra, for their immense support and guidance throughout my academic journey. With this website, I have compiled the knowledge I gained into tools to share with others, hoping to positively impact their lives.</p>
+<p>Please note that the information and tools provided on this website are for reference purposes only. While I have made every effort to ensure accuracy, there may still be errors. Exercise caution when applying this knowledge and these tools, and adjust them based on your specific circumstances.</small></p>

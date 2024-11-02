@@ -1,0 +1,577 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tunnel Burncut DesignVoidRate Calculator</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #34495e;
+            --accent-color: #3498db;
+            --danger-color: #e74c3c;
+            --success-color: #2ecc71;
+            --warning-color: #f1c40f;
+            --background-color: #ecf0f1;
+            --card-background: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--background-color);
+            color: var(--primary-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 2rem;
+        }
+
+        .control-panel {
+            background: var(--card-background);
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .visualization-panel {
+            display: grid;
+            grid-template-rows: auto 1fr;
+            gap: 2rem;
+        }
+
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+
+        .chart-card {
+            background: var(--card-background);
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--secondary-color);
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus {
+            border-color: var(--accent-color);
+            outline: none;
+        }
+
+        button {
+            width: 100%;
+            padding: 0.75rem;
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        .info-box {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background-color: rgba(52, 152, 219, 0.1);
+            border-left: 4px solid var(--accent-color);
+            border-radius: 4px;
+        }
+
+        .disclaimer {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background-color: rgba(231, 76, 60, 0.1);
+            border-left: 4px solid var(--danger-color);
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+
+        canvas {
+            width: 100% !important;
+            height: 100% !important;
+            min-height: 300px;
+            background: white;
+            border-radius: 8px;
+        }
+
+        @media (max-width: 1200px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .control-panel {
+                max-width: 600px;
+                margin: 0 auto;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* 添加3D视图的样式 */
+        #stressField {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chart-controls {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            z-index: 100;
+            display: flex;
+            gap: 10px;
+        }
+
+        .chart-controls button {
+            width: auto;
+            padding: 5px 10px;
+            font-size: 12px;
+            background: rgba(52, 152, 219, 0.8);
+        }
+
+        /* 动画控制按钮 */
+        .animation-controls {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 100;
+        }
+
+        .animation-controls button {
+            width: auto;
+            padding: 5px 15px;
+            margin-left: 5px;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>Underground Blast Design Calculator</h1>
+        </header>
+
+        <main class="main-grid">
+            <aside class="control-panel">
+                <div class="form-group">
+                    <label for="inputR">Reamer Radius 空孔半径 (mm)</label>
+                    <input type="number" id="inputR" min="1" value="51" step="0.1">
+                </div>
+
+                <div class="form-group">
+                    <label for="inputr">Cut Hole Radius 装药孔半径 (mm)</label>
+                    <input type="number" id="inputr" min="1" value="22.5" step="0.1">
+                </div>
+
+                <button onclick="calculate()">Calculate</button>
+
+                <div class="info-box">
+                    <p>Recommended Void Rate: 80%</p>
+                </div>
+
+                <div class="disclaimer">
+                    <p>This tool is for academic research only. Results are based on simplified models and may differ from actual conditions.</p>
+                </div>
+            </aside>
+
+            <section class="visualization-panel">
+                <div class="chart-card">
+                    <div id="spacingChart"></div>
+                </div>
+                
+                <div class="charts-grid">
+                    <div class="chart-card">
+                        <div id="holeVisualization"></div>
+                    </div>
+                    <div class="chart-card">
+                        <div id="stressField"></div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // 防抖函数
+        function debounce(func, wait) {
+            let timeout;
+            return function() {
+                clearTimeout(timeout);
+                timeout = setTimeout(() => func.apply(this, arguments), wait);
+            };
+        }
+
+        function createSpacingChart(spacingData) {
+            const trace = {
+                x: spacingData.map(point => point.x),
+                y: spacingData.map(point => point.y),
+                type: 'scatter',
+                mode: 'lines+markers',
+                name: 'Void Rate',
+                line: {
+                    color: '#2196F3',
+                    width: 2
+                },
+                marker: {
+                    color: spacingData.map(point => point.color),
+                    size: 6
+                }
+            };
+
+            const layout = {
+                title: 'Void Rate vs Spacing',
+                xaxis: {
+                    title: 'Spacing (mm)',
+                    gridcolor: '#E0E0E0',
+                    zeroline: true,
+                    range: [50, 400]
+                },
+                yaxis: {
+                    title: 'Void Rate (%)',
+                    gridcolor: '#E0E0E0',
+                    zeroline: true,
+                    range: [0, 100],
+                    tickformat: '.2f'
+                },
+                plot_bgcolor: '#FFFFFF',
+                paper_bgcolor: '#FFFFFF',
+                hovermode: 'closest',
+                showlegend: false
+            };
+
+            Plotly.newPlot('spacingChart', [trace], layout, {
+                responsive: true,
+                displayModeBar: true,
+                modeBarButtonsToRemove: ['autoScale2d', 'lasso2d', 'select2d']
+            });
+        }
+
+        function createHoleVisualization(R, r, spacing) {
+            // 只使用轮廓线绘制切割孔
+            const cutHole = {
+                type: 'scatter',
+                mode: 'lines',
+                name: 'Cut Hole',
+                x: createCirclePoints(0, 0, r).x,
+                y: createCirclePoints(0, 0, r).y,
+                fill: 'toself',  // 添加填充
+                fillcolor: 'rgba(244, 67, 54, 0.3)',
+                line: {
+                    color: '#F44336',
+                    width: 2
+                }
+            };
+
+            // 只使用轮廓线绘制扩孔
+            const reamerHole = {
+                type: 'scatter',
+                mode: 'lines',
+                name: 'Reamer Hole',
+                x: createCirclePoints(spacing, 0, R).x,
+                y: createCirclePoints(spacing, 0, R).y,
+                fill: 'toself',  // 添加填充
+                fillcolor: 'rgba(33, 150, 243, 0.3)',
+                line: {
+                    color: '#2196F3',
+                    width: 2
+                }
+            };
+
+            // 添加中心线和标注
+            const centerLine = {
+                type: 'scatter',
+                mode: 'lines+text',
+                name: 'Center Distance',
+                x: [0, spacing],
+                y: [0, 0],
+                line: {
+                    color: '#666',
+                    width: 1,
+                    dash: 'dash'
+                },
+                text: [`Cut Hole<br>Ø${(r*2).toFixed(1)}mm`, `Reamer Hole<br>Ø${(R*2).toFixed(1)}mm`],
+                textposition: 'top center'
+            };
+
+            const edgeDistance = {
+                type: 'scatter',
+                mode: 'lines+text',
+                name: 'Edge Distance',
+                x: [r, spacing - R],
+                y: [-20, -20],
+                line: {
+                    color: '#4CAF50',
+                    width: 2
+                },
+                text: [`Edge Distance: ${(spacing - (R + r)).toFixed(1)}mm`],
+                textposition: 'bottom center'
+            };
+
+            // 添加箭头标注
+            const arrows = {
+                type: 'scatter',
+                mode: 'lines',
+                name: 'Arrows',
+                x: [r, r, spacing - R, spacing - R],
+                y: [-15, -25, -25, -15],
+                line: {
+                    color: '#4CAF50',
+                    width: 2
+                },
+                showlegend: false
+            };
+
+            const layout = {
+                title: 'Hole Layout Visualization',
+                xaxis: {
+                    title: 'Distance (mm)',
+                    zeroline: true,
+                    gridcolor: '#E0E0E0',
+                    range: [-r*2, spacing + R*2],
+                    dtick: 50
+                },
+                yaxis: {
+                    title: 'Position (mm)',
+                    zeroline: true,
+                    gridcolor: '#E0E0E0',
+                    range: [-Math.max(R, r)*2.5, Math.max(R, r)*2.5],
+                    scaleanchor: 'x',
+                    scaleratio: 1,
+                    dtick: 50
+                },
+                plot_bgcolor: '#FFFFFF',
+                paper_bgcolor: '#FFFFFF',
+                showlegend: true,
+                legend: {
+                    x: 0.7,
+                    y: 0.1
+                },
+                annotations: [
+                    {
+                        x: spacing/2,
+                        y: Math.max(R, r)*2,
+                        text: `Center Distance: ${spacing.toFixed(1)}mm`,
+                        showarrow: false,
+                        font: {
+                            size: 14
+                        }
+                    }
+                ]
+            };
+
+            Plotly.newPlot('holeVisualization', [
+                cutHole, 
+                reamerHole, 
+                centerLine, 
+                edgeDistance,
+                arrows
+            ], layout, {
+                responsive: true,
+                displayModeBar: true,
+                modeBarButtonsToRemove: ['autoScale2d', 'lasso2d', 'select2d']
+            });
+        }
+
+        function createStressField(R, r, spacing) {
+            // 创建应力场数据
+            const stressZones = [
+                { radius: r * 20, name: 'Vibration Zone', color: 'rgba(231, 76, 60, 0.1)' },
+                { radius: r * 8, name: 'Crack Zone', color: 'rgba(231, 76, 60, 0.2)' },
+                { radius: r * 4, name: 'Crushed Zone', color: 'rgba(231, 76, 60, 0.3)' }
+            ];
+
+            const traces = [];
+
+            // 添加应力区域（从切割孔发出）
+            stressZones.forEach(zone => {
+                const points = createCirclePoints(0, 0, zone.radius);
+                traces.push({
+                    type: 'scatter',
+                    mode: 'lines',
+                    name: zone.name,
+                    x: points.x,
+                    y: points.y,
+                    fill: 'toself',
+                    fillcolor: zone.color,
+                    line: { color: 'transparent' }
+                });
+            });
+
+            // 添加切割孔（在原点）
+            const cutPoints = createCirclePoints(0, 0, r);
+            traces.push({
+                type: 'scatter',
+                mode: 'lines',
+                name: 'Cut Hole',
+                x: cutPoints.x,
+                y: cutPoints.y,
+                fill: 'toself',
+                fillcolor: 'rgba(244, 67, 54, 0.3)',
+                line: { color: '#F44336', width: 2 }
+            });
+
+            // 添加扩孔（在推荐距离处）
+            const reamerPoints = createCirclePoints(spacing, 0, R);
+            traces.push({
+                type: 'scatter',
+                mode: 'lines',
+                name: 'Reamer Hole',
+                x: reamerPoints.x,
+                y: reamerPoints.y,
+                fill: 'toself',
+                fillcolor: 'rgba(33, 150, 243, 0.3)',
+                line: { color: '#2196F3', width: 2 }
+            });
+
+            const layout = {
+                title: 'Stress Field in Granite',
+                xaxis: {
+                    title: 'Distance (mm)',
+                    zeroline: true,
+                    gridcolor: '#E0E0E0',
+                    scaleanchor: 'y',
+                    scaleratio: 1,
+                    range: [-r*20, spacing + R*2] // 调整范围以显示完整的应力场
+                },
+                yaxis: {
+                    title: 'Position (mm)',
+                    zeroline: true,
+                    gridcolor: '#E0E0E0',
+                    range: [-r*20, r*20] // 保持对称的显示范围
+                },
+                plot_bgcolor: '#FFFFFF',
+                paper_bgcolor: '#FFFFFF',
+                showlegend: true,
+                legend: {
+                    x: 0.7,
+                    y: 0.1
+                },
+                annotations: [
+                    {
+                        x: spacing/2,
+                        y: r*20 + 10,
+                        text: `Recommended Distance: ${spacing.toFixed(1)}mm`,
+                        showarrow: false,
+                        font: {
+                            size: 14
+                        }
+                    }
+                ]
+            };
+
+            Plotly.newPlot('stressField', traces, layout, {
+                responsive: true,
+                displayModeBar: true,
+                modeBarButtonsToRemove: ['autoScale2d', 'lasso2d', 'select2d']
+            });
+        }
+
+        function createCirclePoints(centerX, centerY, radius) {
+            const points = { x: [], y: [] };
+            for (let angle = 0; angle <= 360; angle += 5) {
+                const rad = angle * Math.PI / 180;
+                points.x.push(centerX + radius * Math.cos(rad));
+                points.y.push(centerY + radius * Math.sin(rad));
+            }
+            return points;
+        }
+
+        // 修改计算函数
+        function calculate() {
+            const R = parseFloat(document.getElementById("inputR").value);
+            const r = parseFloat(document.getElementById("inputr").value);
+            
+            if (isNaN(R) || isNaN(r) || R <= 0 || r <= 0) {
+                alert("Please enter valid hole diameters");
+                return;
+            }
+
+            // 生成数据点
+            const spacingData = [];
+            for (let spacing = 50; spacing <= 400; spacing += 5) {
+                const voidRate = Math.PI * (Math.pow(R, 2) + Math.pow(r, 2)) / (spacing * (R + r)) - 0.5;
+                if (voidRate > 0 && voidRate <= 2) {
+                    spacingData.push({
+                        x: spacing,
+                        y: parseFloat((voidRate * 100).toFixed(2)),
+                        color: (voidRate >= 0.7 && voidRate <= 0.85) ? '#F44336' : '#2196F3'
+                    });
+                }
+            }
+
+            // 计算推荐间距
+            const recommendedVoidRate = 0.8;
+            const spacing = ((1 / recommendedVoidRate + 0.5) * Math.PI * (Math.pow(R, 2) + Math.pow(r, 2))) / (R + r);
+
+            // 更新所有图表
+            createSpacingChart(spacingData);
+            createHoleVisualization(R, r, spacing);
+            createStressField(R, r, spacing);
+        }
+
+        // 初始化
+        document.addEventListener('DOMContentLoaded', calculate);
+        window.addEventListener('resize', debounce(calculate, 250));
+    </script>
+</body>
+</html> 
+
+
+<p><a href="/fragments/">Fragmentation Model Calculator</a></p>
