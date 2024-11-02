@@ -7,8 +7,7 @@ gtag('config', 'G-5LEHJJD5HL');
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404 - 页面迷失</title>
-    <link rel="stylesheet" href="/css/style.css"> <!-- 如果有自定义样式 -->
+    <title>404 - 页面未找到</title>
     <style>
         body {
             display: flex;
@@ -16,42 +15,70 @@ gtag('config', 'G-5LEHJJD5HL');
             align-items: center;
             justify-content: center;
             height: 100vh;
-            margin: 0; /* 去掉默认边距 */
-            background-color: #f0f0f0;
-            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: #ffffff;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            color: #333;
         }
-        h1 {
-            font-size: 2em;
-            color: #ff5733;
-            margin-bottom: 20px; /* 增加标题与段落间的间距 */
-        }
-        p {
-            font-size: 1.2em;
-            color: #555;
+
+        .container {
             text-align: center;
-            max-width: 600px;
-            margin: 10px 0; /* 段落间的间距 */
+            padding: 2rem;
         }
-        a {
+
+        .error-code {
+            font-size: 6rem;
+            font-weight: 200;
+            color: #2c3e50;
+            margin: 0;
+            opacity: 0;
+            animation: fadeIn 0.8s ease-in forwards;
+        }
+
+        .message {
+            font-size: 1.2rem;
+            color: #666;
+            margin: 1.5rem 0;
+            opacity: 0;
+            animation: fadeIn 0.8s ease-in 0.3s forwards;
+        }
+
+        .home-link {
+            display: inline-block;
             text-decoration: none;
-            color: #007BFF;
-            font-weight: bold;
-            margin-top: 20px;
+            color: #3498db;
+            font-weight: 500;
+            padding: 0.8rem 1.6rem;
+            border: 2px solid #3498db;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            opacity: 0;
+            animation: fadeIn 0.8s ease-in 0.6s forwards;
         }
-        a:hover {
-            text-decoration: underline;
+
+        .home-link:hover {
+            background-color: #3498db;
+            color: #ffffff;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
     </style>
 </head>
 <body>
-    <h1>404 - 页面迷失了 / 404 - Page Not Found</h1>
-    <p>哎呀！看起来你访问的页面已经飞往另一个星球 🚀。<br>
-       Oops! It seems the page you’re looking for has flown to another planet!</p>
-    <p>也许它被外星人绑架了，或者正在享受一场没有网络的假期 🌴。<br>
-       Maybe it was abducted by aliens, or it’s on a vacation with no internet!</p>
-    <p>别担心，我们的主页还在这里，快去看看吧！<br>
-       Don’t worry, our homepage is still here. Go check it out!</p>
-    <a href="/">返回首页 / Go to Homepage</a>
+    <div class="container">
+        <h1 class="error-code">404</h1>
+        <p class="message">抱歉，您访问的页面不存在</p>
+        <a href="/" class="home-link">返回首页</a>
+    </div>
 </body>
 </html>
 </div></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><div class="author-info"><a class="info-avatar" href="/about/" title="About"><img class="nofancybox" src="/img/avatar.png"/></a><p>I am stupid like an idiot.</p><a class="info-icon" href="mailto:hi@ilyfei.com" title="Email" target="_blank" style="margin-inline:5px"> <i class="fa fa-envelope-square" style="margin-inline:5px"></i></a><a class="info-icon" href="/atom.xml" title="RSS" target="_blank" style="margin-inline:5px"> <i class="fa fa-rss-square" style="margin-inline:5px"></i></a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> Categories</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Data/">Data</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Engineer/">Engineer</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Personal/">Personal</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> Tags</i></div><div class="tagcloud"><a href="/tags/Life/" style="font-size: 15px;">Life</a> <a href="/tags/share/" style="font-size: 15px;">share</a> <a href="/tags/tools/" style="font-size: 15px;">tools</a> <a href="/tags/Data-Analyst/" style="font-size: 15px;">Data Analyst</a> <a href="/tags/Reading/" style="font-size: 15px;">Reading</a> <a href="/tags/%E8%B7%A8%E5%A2%83/" style="font-size: 15px;">跨境</a> <a href="/tags/%E5%B7%A5%E4%BD%9C%E6%84%9F%E6%82%9F/" style="font-size: 15px;">工作感悟</a> <a href="/tags/Share/" style="font-size: 15px;">Share</a></div></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2024 <a href="/." rel="nofollow">Engineer &amp; Data.</a> Powered by<a rel="nofollow" target="_blank" href=""> ilyfei.</a><a rel="nofollow" target="_blank" href=""> </a></div></div></div><script type="text/javascript" src="/js/copycode.js?v=1.0.0" successtext="Copy Successed!"></script><link rel="stylesheet" type="text/css" href="/css/copycode.css?v=1.0.0"><script type="text/javascript" src="/js/codeblock-resizer.js?v=1.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=1.0.0"></script></div></body></html>
