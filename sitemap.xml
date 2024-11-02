@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://ilyfei.com/amazontool/index.html</loc>
+    
+    <lastmod>2024-11-02</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://ilyfei.com/404.html</loc>
     
     <lastmod>2024-11-02</lastmod>
@@ -333,14 +342,14 @@
   </url>
   
   <url>
-    <loc>https://ilyfei.com/tags/share/</loc>
+    <loc>https://ilyfei.com/tags/tools/</loc>
     <lastmod>2024-11-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://ilyfei.com/tags/tools/</loc>
+    <loc>https://ilyfei.com/tags/share/</loc>
     <lastmod>2024-11-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>

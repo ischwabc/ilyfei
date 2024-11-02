@@ -1,0 +1,760 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Box</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #34495e;
+            --accent-color: #3498db;
+            --background-color: #f5f6fa;
+            --card-background: #ffffff;
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --card-hover-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+            --text-color: #2c3e50;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .search-box {
+            background: var(--card-background);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s ease;
+        }
+
+        .search-box:hover {
+            box-shadow: var(--card-hover-shadow);
+        }
+
+        .search-controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.2rem;
+            margin-bottom: 1.5rem;
+            align-items: center;
+        }
+
+        .search-box select,
+        .search-box input[type="text"] {
+            padding: 1rem 1.2rem;
+            border: 2px solid #e1e1e1;
+            border-radius: 12px;
+            font-size: 15px;
+            flex: 1;
+            min-width: 200px;
+            transition: all 0.3s ease;
+            background-color: #fff;
+            color: var(--text-color);
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .search-box select:hover,
+        .search-box input[type="text"]:hover {
+            border-color: var(--accent-color);
+        }
+
+        .search-box select:focus,
+        .search-box input[type="text"]:focus {
+            border-color: var(--accent-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
+
+        .radio-group {
+            position: relative;
+            display: flex;
+            gap: 2rem;
+            padding: 0.8rem 1.5rem;
+            background: rgba(52, 152, 219, 0.05);
+            border-radius: 12px;
+        }
+
+        .radio-group label {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            padding: 0.8rem 1rem;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+        }
+
+        .radio-group label:hover {
+            background: rgba(52, 152, 219, 0.1);
+        }
+
+        .radio-group label::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 0.5rem;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .radio-group label:hover::after {
+            opacity: 1;
+            visibility: visible;
+            bottom: calc(100% + 5px);
+        }
+
+        .radio-group input[type="radio"] {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 1.2rem;
+            height: 1.2rem;
+            border: 2px solid var(--accent-color);
+            border-radius: 50%;
+            margin: 0;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .radio-group input[type="radio"]:checked {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+        }
+
+        .radio-group input[type="radio"]:checked::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 0.4rem;
+            height: 0.4rem;
+            background: white;
+            border-radius: 50%;
+        }
+
+        .search-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 1.5rem;
+        }
+
+        .search-box button {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex: 1;
+            min-width: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .search-box button:first-child {
+            background: var(--accent-color);
+            color: white;
+        }
+
+        .search-box button:last-child {
+            background: rgba(52, 152, 219, 0.1);
+            color: var(--accent-color);
+        }
+
+        .search-box button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.2);
+        }
+
+        .search-box button:active {
+            transform: translateY(0);
+        }
+
+        /* 添加图标到按钮 */
+        .search-box button::before {
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+        }
+
+        .search-box button:first-child::before {
+            content: '\f002'; /* 搜索图标 */
+        }
+
+        .search-box button:last-child::before {
+            content: '\f201'; /* 趋势图标 */
+        }
+
+        details {
+            background: var(--card-background);
+            border-radius: 15px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s ease;
+        }
+
+        details:hover {
+            box-shadow: var(--card-hover-shadow);
+        }
+
+        summary {
+            cursor: pointer;
+            padding: 1rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        details ul {
+            list-style: none;
+            padding: 0 1rem;
+        }
+
+        details ul li {
+            margin: 0.5rem 0;
+        }
+
+        details ul li a {
+            color: var(--accent-color);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        details ul li a:hover {
+            color: var(--primary-color);
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .search-controls {
+                flex-direction: column;
+            }
+            
+            .search-box select,
+            .search-box input[type="text"] {
+                width: 100%;
+            }
+
+            .search-buttons {
+                flex-direction: column;
+            }
+
+            .search-box button {
+                width: 100%;
+            }
+        }
+
+        .search-box select {
+            padding: 1rem 1.2rem;
+            border: 2px solid #e1e1e1;
+            border-radius: 12px;
+            font-size: 15px;
+            flex: 1;
+            min-width: 200px;
+            transition: all 0.3s ease;
+            background-color: #fff;
+            color: var(--text-color);
+            cursor: pointer;
+        }
+
+        .country-option {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .flag-icon {
+            width: 1.5rem;
+            height: 1rem;
+            display: inline-block;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            margin-right: 0.5rem;
+        }
+
+        /* 为每个国家添加国旗背景 */
+        .search-box select option[value="US"] {
+            background: url('https://flagcdn.com/w40/us.png') no-repeat left center;
+            padding-left: 30px;
+        }
+        
+        .search-box select option[value="UK"] {
+            background: url('https://flagcdn.com/w40/gb.png') no-repeat left center;
+            padding-left: 30px;
+        }
+        
+        .search-box select option[value="DE"] {
+            background: url('https://flagcdn.com/w40/de.png') no-repeat left center;
+            padding-left: 30px;
+        }
+        
+        .search-box select option[value="FR"] {
+            background: url('https://flagcdn.com/w40/fr.png') no-repeat left center;
+            padding-left: 30px;
+        }
+        
+        .search-box select option[value="IT"] {
+            background: url('https://flagcdn.com/w40/it.png') no-repeat left center;
+            padding-left: 30px;
+        }
+        
+        .search-box select option[value="ES"] {
+            background: url('https://flagcdn.com/w40/es.png') no-repeat left center;
+            padding-left: 30px;
+        }
+        
+        .search-box select option[value="CA"] {
+            background: url('https://flagcdn.com/w40/ca.png') no-repeat left center;
+            padding-left: 30px;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/6.6.6/css/flag-icons.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="search-box" style="margin-top: 2rem;">
+            <h1 style="color: var(--primary-color); margin-bottom: 1.5rem; text-align: center;">
+                亚马逊定制产品搜索工具
+            </h1>
+            <p style="color: var(--secondary-color); text-align: center; margin-bottom: 2rem;">
+                快速搜索各站点定制产品类目，支持新品和热卖筛选
+            </p>
+            <div class="search-controls">
+                <select id="country">
+                    <option value="US">🇺🇸 United States</option>
+                    <option value="UK">🇬🇧 United Kingdom</option>
+                    <option value="DE">🇩🇪 Germany</option>
+                    <option value="FR">🇫🇷 France</option>
+                    <option value="IT">🇮🇹 Italy</option>
+                    <option value="ES">🇪🇸 Spain</option>
+                    <option value="CA">🇨🇦 Canada</option>
+                </select>
+
+                <input type="text" id="keyword" placeholder="输入关键词搜索" onkeypress="checkKey(event)">
+
+                <div class="radio-group">
+                    <label data-tooltip="按上架时间排序，展示最新产品">
+                        <input type="radio" name="searchType" value="new" checked> 新上架
+                    </label>
+                    <label data-tooltip="按销量排序，展示最畅销产品">
+                        <input type="radio" name="searchType" value="popular"> 热卖
+                    </label>
+                </div>
+            </div>
+
+            <div class="search-buttons">
+                <button onclick="search()">搜索亚马逊</button>
+                <button onclick="searchGoogleTrends()">Google趋势</button>
+            </div>
+        </div>
+
+        <!-- 定制二级类目-新上架产品 -->
+        <details>
+            <summary>US 美国</summary>
+            <ul>
+                <li><a href="https://www.amazon.com/s?&rh=n%3A11032013011&s=date-desc-rank">Amazon-Custom</a></li>
+                <li><a href="https://www.amazon.com/s?i=garden&bbn=11032013011&s=date-desc-rank">Home & Kitchen</a></li>
+                <li><a href="https://www.amazon.com/s?i=fashion&bbn=11032013011&s=date-desc-rank">Clothing, Shoes & Jewelry</a></li>
+                <li><a href="https://www.amazon.com/s?i=handmade&bbn=11032013011&s=date-desc-rank">Handmade</a></li>
+                <li><a href="https://www.amazon.com/s?i=sporting&bbn=11032013011&s=date-desc-rank">Sports & Outdoors</a></li>
+                <li><a href="https://www.amazon.com/s?i=office-products&bbn=11032013011&s=date-desc-rank">Office Products</a></li>
+                <li><a href="https://www.amazon.com/s?i=industrial&bbn=11032013011&s=date-desc-rank">Industrial & Scientific</a></li>
+                <li><a href="https://www.amazon.com/s?i=pets&bbn=11032013011&s=date-desc-rank">Pet Supplies</a></li>
+                <li><a href="https://www.amazon.com/s?i=automotive&bbn=11032013011&s=date-desc-rank">Automotive Parts & Accessories</a></li>
+                <li><a href="https://www.amazon.com/s?i=baby-products&bbn=11032013011&s=date-desc-rank">Baby</a></li>
+                <li><a href="https://www.amazon.com/s?i=mobile&bbn=11032013011&s=date-desc-rank">Cell Phones & Accessories</a></li>
+                <li><a href="https://www.amazon.com/s?i=lawngarden&bbn=11032013011&s=date-desc-rank">Garden & Outdoor</a></li>
+                <li><a href="https://www.amazon.com/s?i=tools&bbn=11032013011&s=date-desc-rank">Tools & Home Improvement</a></li>
+                <li><a href="https://www.amazon.com/s?i=arts-crafts&bbn=11032013011&s=date-desc-rank">Arts, Crafts & Sewing</a></li>
+                <li><a href="https://www.amazon.com/s?i=electronics&bbn=11032013011&s=date-desc-rank">Electronics</a></li>
+                <li><a href="https://www.amazon.com/s?i=hpc&bbn=11032013011&s=date-desc-rank">Health, Household & Baby Care</a></li>
+                <li><a href="https://www.amazon.com/s?i=toys-and-games&bbn=11032013011&s=date-desc-rank">Toys & Games</a></li>
+                <li><a href="https://www.amazon.com/s?i=grocery&bbn=11032013011&s=date-desc-rank">Grocery & Gourmet Food</a></li>
+                <li><a href="https://www.amazon.com/s?i=beauty&bbn=11032013011&s=date-desc-rank">Beauty & Personal Care</a></li>
+                <li><a href="https://www.amazon.com/s?i=videogames&bbn=11032013011&s=date-desc-rank">Video Games</a></li>
+                <li><a href="https://www.amazon.com/s?i=stripbooks&bbn=11032013011&s=date-desc-rank">Books</a></li>
+                <li><a href="https://www.amazon.com/s?i=mi&bbn=11032013011&s=date-desc-rank">Musical Instruments</a></li>
+                <li><a href="https://www.amazon.com/s?i=appliances&bbn=11032013011&s=date-desc-rank">Appliances</a></li>
+                <li><a href="https://www.amazon.com/s?i=popular&bbn=11032013011&s=date-desc-rank">CDs & Vinyl</a></li>
+                <li><a href="https://www.amazon.com/s?i=misc&bbn=11032013011&s=date-desc-rank">Everything Else</a></li>
+                <li><a href="https://www.amazon.com/s?i=dvd&bbn=11032013011&s=date-desc-rank">Movies & TV</a></li>
+                <li><a href="https://www.amazon.com/s?i=collectibles&bbn=11032013011&s=date-desc-rank">Collectibles & Fine Art</a></li>
+                <li><a href="https://www.amazon.com/s?i=mobile-apps&bbn=11032013011&s=date-desc-rank">Apps & Games</a></li>
+            </ul>
+        </details>
+
+        <details>
+            <summary>UK 英国</summary>
+            <ul>
+                <li><a href="https://www.amazon.co.uk/s?&rh=n%3A14578036031&s=date-desc-rank">Amazon-Custom</a></li>
+                <li><a href="https://www.amazon.co.uk/s?i=kitchen&bbn=14578036031&s=date-desc-rank">Home & Kitchen</a></li>
+                <li><a href="https://www.amazon.co.uk/s?i=handmade&bbn=14578036031&s=date-desc-rank">Handmade</a></li>
+                <li><a href="https://www.amazon.co.uk/s?i=office-products&bbn=14578036031&s=date-desc-rank">Stationery & Office Supplies</a></li>
+                <li><a href="https://www.amazon.co.uk/s?i=industrial&bbn=14578036031&s=date-desc-rank">Industrial & Scientific</a></li>
+                <li><a href="https://www.amazon.co.uk/s?i=toys&bbn=14578036031&s=date-desc-rank">Toys & Games</a></li>
+                <li><a href="https://www.amazon.co.uk/s?i=fashion&bbn=14578036031&s=date-desc-rank">Fashion</a></li>
+                <li><a href="https://www.amazon.co.uk/s?i=sports&bbn=14578036031&s=date-desc-rank">Sports & Outdoors</a></li>
+                <li><a href="https://www.amazon.co.uk/s?i=pets&bbn=14578036031&s=date-desc-rank">Pet Supplies</a></li>
+                <li><a href="https://www.amazon.co.uk/s?i=stripbooks&bbn=14578036031&s=date-desc-rank">Books</a></li>
+                <li><a href="https://www.amazon.co.uk/s?i=grocery&bbn=14578036031&s=date-desc-rank">Grocery</a></li>
+                <li><a href="https://www.amazon.co.uk/s?i=baby&bbn=14578036031&s=date-desc-rank">Baby</a></li>
+                <li><a href="https://www.amazon.co.uk/s?i=diy&bbn=14578036031&s=date-desc-rank">DIY & Tools</a></li>
+                <li><a href="https://www.amazon.co.uk/s?i=electronics&bbn=14578036031&s=date-desc-rank">Electronics & Photo</a></li>
+                <li><a href="https://www.amazon.co.uk/s?i=automotive&bbn=14578036031&s=date-desc-rank">Car & Motorbike</a></li>
+                <li><a href="https://www.amazon.co.uk/s?i=drugstore&bbn=14578036031&s=date-desc-rank">Health & Personal Care</a></li>
+                <li><a href="https://www.amazon.co.uk/s?i=outdoor&bbn=14578036031&s=date-desc-rank">Garden & Outdoors</a></li>
+                <li><a href="https://www.amazon.co.uk/s?i=lighting&bbn=14578036031&s=date-desc-rank">Lighting</a></li>
+                <li><a href="https://www.amazon.co.uk/s?i=videogames&bbn=14578036031&s=date-desc-rank">PC & Video Games</a></li>
+                <li><a href="https://www.amazon.co.uk/s?i=beauty&bbn=14578036031&s=date-desc-rank">Beauty</a></li>
+                <li><a href="https://www.amazon.co.uk/s?i=computers&bbn=14578036031&s=date-desc-rank">Computers & Accessories</a></li>
+                <li><a href="https://www.amazon.co.uk/s?i=mi&bbn=14578036031&s=date-desc-rank">Musical Instruments & DJ Equipment</a></li>
+                <li><a href="https://www.amazon.co.uk/s?i=popular&bbn=14578036031&s=date-desc-rank">CDs & Vinyl</a></li>
+                <li><a href="https://www.amazon.co.uk/s?i=dvd&bbn=14578036031&s=date-desc-rank">DVD & Blu-ray</a></li>
+                <li><a href="https://www.amazon.co.uk/s?i=appliances&bbn=14578036031&s=date-desc-rank">Large Appliances</a></li>
+                <li><a href="https://www.amazon.co.uk/s?i=vhs&bbn=14578036031&s=date-desc-rank">VHS</a></li>
+                <li><a href="https://www.amazon.co.uk/s?i=misc&bbn=14578036031&s=date-desc-rank">Everything Else</a></li>
+                <li><a href="https://www.amazon.co.uk/s?i=gift-cards&bbn=14578036031&s=date-desc-rank">Gift Cards</a></li>
+                <li><a href="https://www.amazon.co.uk/s?i=software&bbn=14578036031&s=date-desc-rank">Software</a></li>
+            </ul>
+        </details>
+
+        <!-- 在 Canada 部分添加完整链接 -->
+        <details>
+            <summary>Canada 加拿大</summary>
+            <ul>
+                <li><a href="https://www.amazon.ca/s?&rh=n%3A23773954011">Amazon-Custom</a></li>
+                <li><a href="https://www.amazon.ca/s?i=fashion&bbn=23773954011&s=date-desc-rank">Clothing, Shoes & Jewellery</a></li>
+                <li><a href="https://www.amazon.ca/s?i=kitchen&bbn=23773954011&s=date-desc-rank">Home & Kitchen</a></li>
+                <li><a href="https://www.amazon.ca/s?i=handmade&bbn=23773954011&s=date-desc-rank">Handmade</a></li>
+                <li><a href="https://www.amazon.ca/s?i=sporting&bbn=23773954011&s=date-desc-rank">Sports & Outdoors</a></li>
+                <li><a href="https://www.amazon.ca/s?i=tools&bbn=23773954011&s=date-desc-rank">Tools & Home Improvement</a></li>
+                <li><a href="https://www.amazon.ca/s?i=office-products&bbn=23773954011&s=date-desc-rank">Office Products</a></li>
+                <li><a href="https://www.amazon.ca/s?i=pets&bbn=23773954011&s=date-desc-rank">Pet Supplies</a></li>
+                <li><a href="https://www.amazon.ca/s?i=baby&bbn=23773954011&s=date-desc-rank">Baby</a></li>
+                <li><a href="https://www.amazon.ca/s?i=automotive&bbn=23773954011&s=date-desc-rank">Automotive</a></li>
+                <li><a href="https://www.amazon.ca/s?i=lawngarden&bbn=23773954011&s=date-desc-rank">Patio, Lawn & Garden</a></li>
+                <li><a href="https://www.amazon.ca/s?i=industrial&bbn=23773954011&s=date-desc-rank">Industrial & Scientific</a></li>
+                <li><a href="https://www.amazon.ca/s?i=electronics&bbn=23773954011&s=date-desc-rank">Electronics</a></li>
+                <li><a href="https://www.amazon.ca/s?i=toys&bbn=23773954011&s=date-desc-rank">Toys & Games</a></li>
+                <li><a href="https://www.amazon.ca/s?i=hpc&bbn=23773954011&s=date-desc-rank">Health & Personal Care</a></li>
+                <li><a href="https://www.amazon.ca/s?i=beauty&bbn=23773954011&s=date-desc-rank">Beauty</a></li>
+                <li><a href="https://www.amazon.ca/s?i=stripbooks&bbn=23773954011&s=date-desc-rank">Books</a></li>
+                <li><a href="https://www.amazon.ca/s?i=grocery&bbn=23773954011&s=date-desc-rank">Grocery</a></li>
+                <li><a href="https://www.amazon.ca/s?i=mi&bbn=23773954011&s=date-desc-rank">Musical Instruments, Stage & Studio</a></li>
+                <li><a href="https://www.amazon.ca/s?i=misc&bbn=23773954011&s=date-desc-rank">Everything Else</a></li>
+                <li><a href="https://www.amazon.ca/s?i=videogames&bbn=23773954011&s=date-desc-rank">Video Games</a></li>
+                <li><a href="https://www.amazon.ca/s?i=popular&bbn=23773954011&s=date-desc-rank">Music</a></li>
+            </ul>
+        </details>
+
+        <details>
+            <summary>Germany 德国</summary>
+            <ul>
+                <li><a href="https://www.amazon.de/-/en/s?&rh=n%3A14578056031&s=date-desc-rank">Amazon-Custom</a></li>
+                <li><a href="https://www.amazon.de/-/en/s?i=electronics&bbn=14578056031&s=date-desc-rank">Electronics & Photo</a></li>
+                <li><a href="https://www.amazon.de/-/en/s?i=kitchen&bbn=14578056031&s=date-desc-rank">Home & Kitchen</a></li>
+                <li><a href="https://www.amazon.de/-/en/s?i=stripbooks&bbn=14578056031&s=date-desc-rank">Books</a></li>
+                <li><a href="https://www.amazon.de/-/en/s?i=office-products&bbn=14578056031&s=date-desc-rank">Office Products</a></li>
+                <li><a href="https://www.amazon.de/-/en/s?i=industrial&bbn=14578056031&s=date-desc-rank">Industrial & Scientific</a></li>
+                <li><a href="https://www.amazon.de/-/en/s?i=handmade&bbn=14578056031&s=date-desc-rank">Handmade</a></li>
+                <li><a href="https://www.amazon.de/-/en/s?i=sports&bbn=14578056031&s=date-desc-rank">Sports</a></li>
+                <li><a href="https://www.amazon.de/-/en/s?i=toys&bbn=14578056031&s=date-desc-rank">Toys & Games</a></li>
+                <li><a href="https://www.amazon.de/-/en/s?i=diy&bbn=14578056031&s=date-desc-rank">Home Improvement</a></li>
+                <li><a href="https://www.amazon.de/-/en/s?i=baby&bbn=14578056031&s=date-desc-rank">Baby</a></li>
+                <li><a href="https://www.amazon.de/-/en/s?i=automotive&bbn=14578056031&s=date-desc-rank">Automotive</a></li>
+                <li><a href="https://www.amazon.de/-/en/s?i=pets&bbn=14578056031&s=date-desc-rank">Pet Supplies</a></li>
+                <li><a href="https://www.amazon.de/-/en/s?i=grocery&bbn=14578056031&s=date-desc-rank">Grocery</a></li>
+                <li><a href="https://www.amazon.de/-/en/s?i=outdoor&bbn=14578056031&s=date-desc-rank">Garden & Outdoors</a></li>
+                <li><a href="https://www.amazon.de/-/en/s?i=drugstore&bbn=14578056031&s=date-desc-rank">Health & Personal Care</a></li>
+                <li><a href="https://www.amazon.de/-/en/s?i=english-books&bbn=14578056031&s=date-desc-rank">Foreign Language Books</a></li>
+                <li><a href="https://www.amazon.de/-/en/s?i=videogames&bbn=14578056031&s=date-desc-rank">PC & Video Games</a></li>
+                <li><a href="https://www.amazon.de/-/en/s?i=computers&bbn=14578056031&s=date-desc-rank">Computers & Accessories</a></li>
+                <li><a href="https://www.amazon.de/-/en/s?i=lighting&bbn=14578056031&s=date-desc-rank">Lighting</a></li>
+                <li><a href="https://www.amazon.de/-/en/s?i=beauty&bbn=14578056031&s=date-desc-rank">Perfume & Cosmetic</a></li>
+                <li><a href="https://www.amazon.de/-/en/s?i=popular&bbn=14578056031&s=date-desc-rank">CDs & Vinyl</a></li>
+                <li><a href="https://www.amazon.de/-/en/s?i=software&bbn=14578056031&s=date-desc-rank">Software</a></li>
+                <li><a href="https://www.amazon.de/-/en/s?i=mi&bbn=14578056031&s=date-desc-rank">Musical Instruments & DJ Equipment</a></li>
+                <li><a href="https://www.amazon.de/-/en/s?i=dvd&bbn=14578056031&s=date-desc-rank">DVD & Blu-ray</a></li>
+                <li><a href="https://www.amazon.de/-/en/s?i=appliances&bbn=14578056031&s=date-desc-rank">Large Appliances</a></li>
+            </ul>
+        </details>
+     <details>
+            <summary>France 法国</summary>
+            <ul>
+              <li><a href="https://www.amazon.fr/s?&rh=n%3A14578059031&s=date-desc-rank">Amazon-Custom</a></li>
+              <li><a href="https://www.amazon.fr/-/en/s?i=electronics&bbn=14578056031&s=date-desc-rank">Electronics & </a></li>
+              <li><a href="https://www.amazon.fr/s?i=fashion&bbn=14578059031&s=date-desc-rank">Mode</a></li>
+              <li><a href="https://www.amazon.fr/s?i=kitchen&bbn=14578059031&s=date-desc-rank">Cuisine & Maison</a></li>
+              <li><a href="https://www.amazon.fr/s?i=handmade&bbn=14578059031&s=date-desc-rank">Handmade</a></li>
+              <li><a href="https://www.amazon.fr/s?i=office-products&bbn=14578059031&s=date-desc-rank">Fournitures de bureau</a></li>
+              <li><a href="https://www.amazon.fr/s?i=industrial&bbn=14578059031&s=date-desc-rank">Secteur industriel et scientifique</a></li>
+              <li><a href="https://www.amazon.fr/s?i=electronics&bbn=14578059031&s=date-desc-rank">High-Tech</a></li>
+              <li><a href="https://www.amazon.fr/s?i=toys&bbn=14578059031&s=date-desc-rank">Jeux et Jouets</a></li>
+              <li><a href="https://www.amazon.fr/s?i=stripbooks&bbn=14578059031&s=date-desc-rank">Livres en français</a></li>
+              <li><a href="https://www.amazon.fr/s?i=pets&bbn=14578059031&s=date-desc-rank">Animalerie</a></li>
+              <li><a href="https://www.amazon.fr/s?i=diy&bbn=14578059031&s=date-desc-rank">Bricolage</a></li>
+              <li><a href="https://www.amazon.fr/s?i=baby&bbn=14578059031&s=date-desc-rank">Bébés & Puériculture</a></li>
+              <li><a href="https://www.amazon.fr/s?i=sports&bbn=14578059031&s=date-desc-rank">Sports et Loisirs</a></li>
+              <li><a href="https://www.amazon.fr/s?i=lighting&bbn=14578059031&s=date-desc-rank">Luminaires et Eclairage</a></li>
+              <li><a href="https://www.amazon.fr/s?i=automotive&bbn=14578059031&s=date-desc-rank">Auto et Moto</a></li>
+              <li><a href="https://www.amazon.fr/s?i=grocery&bbn=14578059031&s=date-desc-rank">Epicerie</a></li>
+              <li><a href="https://www.amazon.fr/s?i=hpc&bbn=14578059031&s=date-desc-rank">Hygiène et Santé</a></li>
+              <li><a href="https://www.amazon.fr/s?i=digital-text&bbn=14578059031&s=date-desc-rank">Boutique Kindle</a></li>
+              <li><a href="https://www.amazon.fr/s?i=garden&bbn=14578059031&s=date-desc-rank">Jardin</a></li>
+              <li><a href="https://www.amazon.fr/s?i=beauty&bbn=14578059031&s=date-desc-rank">Beauté et Parfum</a></li>
+              <li><a href="https://www.amazon.fr/s?i=computers&bbn=14578059031&s=date-desc-rank">Informatique</a></li>
+              <li><a href="https://www.amazon.fr/s?i=videogames&bbn=14578059031&s=date-desc-rank">Jeux vidéo</a></li>
+              <li><a href="https://www.amazon.fr/s?i=mi&bbn=14578059031&s=date-desc-rank">Instruments de musique & Sono</a></li>
+              <li><a href="https://www.amazon.fr/s?i=popular&bbn=14578059031&s=date-desc-rank">Musique : CD & Vinyles</a></li>
+              <li><a href="https://www.amazon.fr/s?i=classical&bbn=14578059031&s=date-desc-rank">Musique classique</a></li>
+              <li><a href="https://www.amazon.fr/s?i=english-books&bbn=14578059031&s=date-desc-rank">Livres anglais et étrangers</a></li>
+              <li><a href="https://www.amazon.fr/s?i=misc&bbn=14578059031&s=date-desc-rank">Autres</a></li>
+              <li><a href="https://www.amazon.fr/s?i=appliances&bbn=14578059031&s=date-desc-rank">Gros électroménager</a></li>
+            </ul>
+          </details>
+
+          <details>
+            <summary>Spain 西班牙</summary>
+            <ul>
+              <li><a href="https://www.amazon.es/s?&rh=n%3A14578063031&s=date-desc-rank">Amazon-Custom</a></li>
+              <li><a href="https://www.amazon.es/s?i=fashion&bbn=14578063031&s=date-desc-rank">Moda</a></li>
+              <li><a href="https://www.amazon.es/s?i=kitchen&bbn=14578063031&s=date-desc-rank">Hogar y cocina</a></li>
+              <li><a href="https://www.amazon.es/s?i=handmade&bbn=14578063031&s=date-desc-rank">Handmade</a></li>
+              <li><a href="https://www.amazon.es/s?i=electronics&bbn=14578063031&s=date-desc-rank">Electrónica</a></li>
+              <li><a href="https://www.amazon.es/s?i=office-products&bbn=14578063031&s=date-desc-rank">Oficina y papelería</a></li>
+              <li><a href="https://www.amazon.es/s?i=industrial&bbn=14578063031&s=date-desc-rank">Industria y ciencia</a></li>
+              <li><a href="https://www.amazon.es/s?i=baby&bbn=14578063031&s=date-desc-rank">Bebé</a></li>
+              <li><a href="https://www.amazon.es/s?i=pets&bbn=14578063031&s=date-desc-rank">Productos para mascotas</a></li>
+              <li><a href="https://www.amazon.es/s?i=toys&bbn=14578063031&s=date-desc-rank">Juguetes y juegos</a></li>
+              <li><a href="https://www.amazon.es/s?i=sporting&bbn=14578063031&s=date-desc-rank">Deportes y aire libre</a></li>
+              <li><a href="https://www.amazon.es/s?i=automotive&bbn=14578063031&s=date-desc-rank">Coche y Moto - Piezas y accesorios</a></li>
+              <li><a href="https://www.amazon.es/s?i=diy&bbn=14578063031&s=date-desc-rank">Bricolaje y herramientas</a></li>
+              <li><a href="https://www.amazon.es/s?i=lighting&bbn=14578063031&s=date-desc-rank">Iluminación</a></li>
+              <li><a href="https://www.amazon.es/s?i=grocery&bbn=14578063031&s=date-desc-rank">Alimentación y bebidas</a></li>
+              <li><a href="https://www.amazon.es/s?i=computers&bbn=14578063031&s=date-desc-rank">Informática</a></li>
+              <li><a href="https://www.amazon.es/s?i=hpc&bbn=14578063031&s=date-desc-rank">Salud y cuidado personal</a></li>
+              <li><a href="https://www.amazon.es/s?i=beauty&bbn=14578063031&s=date-desc-rank">Belleza</a></li>
+              <li><a href="https://www.amazon.es/s?i=lawngarden&bbn=14578063031&s=date-desc-rank">Jardín</a></li>
+              <li><a href="https://www.amazon.es/s?i=stripbooks&bbn=14578063031&s=date-desc-rank">Libros</a></li>
+              <li><a href="https://www.amazon.es/s?i=misc&bbn=14578063031&s=date-desc-rank">Otros Productos</a></li>
+              <li><a href="https://www.amazon.es/s?i=mi&bbn=14578063031&s=date-desc-rank">Instrumentos musicales</a></li>
+              <li><a href="https://www.amazon.es/s?i=videogames&bbn=14578063031&s=date-desc-rank">Videojuegos</a></li>
+              <li><a href="https://www.amazon.es/s?i=digital-text&bbn=14578063031&s=date-desc-rank">Tienda Kindle</a></li>
+              <li><a href="https://www.amazon.es/s?i=vehicles&bbn=14578063031&s=date-desc-rank">vehicles</a></li>
+              <li><a href="https://www.amazon.es/s?i=appliances&bbn=14578063031&s=date-desc-rank">Electrodomésticos</a></li>
+              <li><a href="https://www.amazon.es/s?i=popular&bbn=14578063031&s=date-desc-rank">Música: CDs y vinilos</a></li>
+            </ul>
+          </details>
+
+          <details>
+            <summary>Italy 意大利</summary>
+            <ul>
+              <li><a href="https://www.amazon.it/s?&rh=n%3A14578061031&s=date-desc-rank">Amazon-Custom</a></li>
+              <li><a href="https://www.amazon.it/s?i=fashion&bbn=14578061031&s=date-desc-rank">Moda</a></li>
+              <li><a href="https://www.amazon.it/s?i=kitchen&bbn=14578061031&s=date-desc-rank">Casa e cucina</a></li>
+              <li><a href="https://www.amazon.it/s?i=handmade&bbn=14578061031&s=date-desc-rank">Handmade</a></li>
+              <li><a href="https://www.amazon.it/s?i=grocery&bbn=14578061031&s=date-desc-rank">Alimentari e cura della casa</a></li>
+              <li><a href="https://www.amazon.it/s?i=sporting&bbn=14578061031&s=date-desc-rank">Sport e tempo libero</a></li>
+              <li><a href="https://www.amazon.it/s?i=industrial&bbn=14578061031&s=date-desc-rank">Industria e Scienza</a></li>
+              <li><a href="https://www.amazon.it/s?i=office-products&bbn=14578061031&s=date-desc-rank">Cancelleria e prodotti per ufficio</a></li>
+              <li><a href="https://www.amazon.it/s?i=baby&bbn=14578061031&s=date-desc-rank">Prima infanzia</a></li>
+              <li><a href="https://www.amazon.it/s?i=electronics&bbn=14578061031&s=date-desc-rank">Elettronica</a></li>
+              <li><a href="https://www.amazon.it/s?i=automotive&bbn=14578061031&s=date-desc-rank">Auto e Moto - Parti e Accessori</a></li>
+              <li><a href="https://www.amazon.it/s?i=pets&bbn=14578061031&s=date-desc-rank">Prodotti per animali domestici</a></li>
+              <li><a href="https://www.amazon.it/s?i=diy&bbn=14578061031&s=date-desc-rank">Fai da te</a></li>
+              <li><a href="https://www.amazon.it/s?i=lighting&bbn=14578061031&s=date-desc-rank">Illuminazione</a></li>
+              <li><a href="https://www.amazon.it/s?i=toys&bbn=14578061031&s=date-desc-rank">Giochi e giocattoli</a></li>
+              <li><a href="https://www.amazon.it/s?i=garden&bbn=14578061031&s=date-desc-rank">Giardino e giardinaggio</a></li>
+              <li><a href="https://www.amazon.it/s?i=hpc&bbn=14578061031&s=date-desc-rank">Salute e cura della persona</a></li>
+              <li><a href="https://www.amazon.it/s?i=computers&bbn=14578061031&s=date-desc-rank">Informatica</a></li>
+              <li><a href="https://www.amazon.it/s?i=stripbooks&bbn=14578061031&s=date-desc-rank">Libri</a></li>
+              <li><a href="https://www.amazon.it/s?i=beauty&bbn=14578061031&s=date-desc-rank">Bellezza</a></li>
+              <li><a href="https://www.amazon.it/s?i=mi&bbn=14578061031&s=date-desc-rank">Strumenti musicali e DJ</a></li>
+              <li><a href="https://www.amazon.it/s?i=videogames&bbn=14578061031&s=date-desc-rank">Videogiochi</a></li>
+              <li><a href="https://www.amazon.it/s?i=misc&bbn=14578061031&s=date-desc-rank">Altro</a></li>
+              <li><a href="https://www.amazon.it/s?i=digital-text&bbn=14578061031&s=date-desc-rank">Kindle Store</a></li>
+              <li><a href="https://www.amazon.it/s?i=appliances&bbn=14578061031&s=date-desc-rank">Elettrodomestici</a></li>
+              <li><a href="https://www.amazon.it/s?i=gift-cards&bbn=14578061031&s=date-desc-rank">Buoni Regalo</a></li>
+              <li><a href="https://www.amazon.it/s?i=popular&bbn=14578061031&s=date-desc-rank">CD e Vinili</a></li>
+              <li><a href="https://www.amazon.it/s?i=dvd&bbn=14578061031&s=date-desc-rank">Film e TV</a></li>
+            </ul>
+          </details>
+
+        <!-- 其他相关链接 -->
+        <details>
+            <summary>趋势链接</summary>
+            <ul>
+                <li><a href="https://trends.google.com/">Google Trends（谷歌趋势）</a></li>
+                <li><a href="https://ads.google.cn/marketfinder/">谷歌发掘全球商机</a></li>
+                <li><a href="https://www.thinkwithgoogle.com/feature/category-trends/us/week/en">谷歌全球零售趋势查询</a></li>
+                <li><a href="https://www.bestreviews.guide/categories">最佳产品指南</a></li>
+                <li><a href="https://explodingtopics.com/">发现爆炸性话题</a></li>
+                <li><a href="https://www.trendhunter.com/">TREND HUNTER 趋势猎人</a></li>
+                <li><a href="https://business.pinterest.com/en-gb/content/pinterest-predicts/">Pinterest流行趋势</a></li>
+                <li><a href="http://www.ywindex.com/">义乌小商品指数</a></li>
+            </ul>
+        </details>
+
+        <details>
+            <summary>专利查询</summary>
+            <ul>
+                <li><a href="https://tmsearch.uspto.gov">美国商标查询</a></li>
+                <li><a href="http://patft.uspto.gov/">美国专利局</a></li>
+                <li><a href="https://euipo.europa.eu/">欧洲商标局</a></li>
+                <li><a href="https://www.epo.org/searching-for-patents.html">欧洲专利局</a></li>
+                <li><a href="http://www.ipo.gov.uk/">英国商标局</a></li>
+            </ul>
+        </details>
+
+        <details>
+            <summary>工具</summary>
+            <ul>
+                <li><a href="http://43.248.49.97/">中国海关统计数据</a></li>
+                <li><a href="http://hd.chinatax.gov.cn/nszx/InitChukou.html">出口退税率查询</a></li>
+                <li><a href="http://cacs.mofcom.gov.cn/index.shtml">商品反倾销查询</a></li>
+                <li><a href="http://www.customs.gov.cn/customs/302427/302442/tgzt/index.html">通关状态查询</a></li>
+                <li><a href="http://wmsw.mofcom.gov.cn/wmsw/">进出口税费查询</a></li>
+                <li><a href="http://fta.mofcom.gov.cn/">中国自贸区查询</a></li>
+                <li><a href="http://go.amazonsellerservices.com/advertising-eCalendar">亚马逊节日关键词日历</a></li>
+                <li><a href="https://tbt.sist.org.cn/mbsc_106/">技术壁垒资源网</a></li>
+                <li><a href="https://www.iamwawa.cn/">蛙蛙在线工具</a></li>
+                <li><a href="https://www.acronymfinder.com/">英文缩写查询</a></li>
+                <li><a href="https://verify-email.org/">验证邮箱真假</a></li>
+                <li><a href="https://n9.cl/zh">N9短链接生成器</a></li>
+                <li><a href="https://www.pdfpai.com/">在线PDF工具</a></li>
+                <li><a href="https://www.uupoop.com/#/">在线PS工具</a></li>
+                <li><a href="https://www.iloveimg.com/">在线图片编辑器</a></li>
+                <li><a href="https://bigjpg.com/">图片无损放大</a></li>
+                <li><a href="https://www.remove.bg/">在线抠图</a></li>
+                <li><a href="https://pixabay.com/">免费正版图片库</a></li>
+                <li><a href="https://mjzj.com/newmjzj/tools/unitConversion">万能单位换器</a></li>
+                <li><a href="https://mjzj.com/newmjzj/tools/visualEditor">可视化编辑器</a></li>
+            </ul>
+        </details>
+
+    </div>
+
+    <script>
+        function search() {
+            var country = document.getElementById("country").value;
+            var keyword = document.getElementById("keyword").value;
+            var searchType = document.querySelector('input[name="searchType"]:checked').value;
+
+            var baseUrl;
+            if (country === "US") {
+                baseUrl = "https://www.amazon.com/s?k=";
+            } else if (country === "UK") {
+                baseUrl = "https://www.amazon.co.uk/s?k=";
+            } else if (country === "CA") {
+                baseUrl = "https://www.amazon.ca/s?k=";
+            } else if (country === "DE") {
+                baseUrl = "https://www.amazon.de/s?k=";
+            } else if (country === "FR") {
+                baseUrl = "https://www.amazon.fr/s?k=";
+            } else if (country === "ES") {
+                baseUrl = "https://www.amazon.es/s?k=";
+            } else if (country === "IT") {
+                baseUrl = "https://www.amazon.it/s?k=";
+            }
+
+            if (baseUrl) {
+                var url;
+                if (searchType === "new") {
+                    url = baseUrl + encodeURIComponent(keyword) + "&i=amazon-custom-products&s=date-desc-rank";
+                } else if (searchType === "popular") {
+                    url = baseUrl + encodeURIComponent(keyword) + "&i=amazon-custom-products&s=exact-aware-popularity-rank";
+                }
+                window.open(url, "_blank");
+            }
+        }
+
+        function searchGoogleTrends() {
+            var country = document.getElementById("country").value;
+            var keyword = document.getElementById("keyword").value;
+            var url;
+
+            if (country === "US") {
+                url = "https://trends.google.com/trends/explore?geo=US&q=" + encodeURIComponent(keyword);
+            } else if (country === "UK") {
+                url = "https://trends.google.com/trends/explore?geo=GB&q=" + encodeURIComponent(keyword);
+            } else if (country === "CA") {
+                url = "https://trends.google.com/trends/explore?geo=CA&q=" + encodeURIComponent(keyword);
+            } else if (country === "DE") {
+                url = "https://trends.google.com/trends/explore?geo=DE&q=" + encodeURIComponent(keyword);
+            } else if (country === "FR") {
+                url = "https://trends.google.com/trends/explore?geo=FR&q=" + encodeURIComponent(keyword);
+            } else if (country === "ES") {
+                url = "https://trends.google.com/trends/explore?geo=ES&q=" + encodeURIComponent(keyword);
+            } else if (country === "IT") {
+                url = "https://trends.google.com/trends/explore?geo=IT&q=" + encodeURIComponent(keyword);
+            } else {
+                url = "https://trends.google.com/trends/explore?q=" + encodeURIComponent(keyword);
+            }
+
+            window.open(url, "_blank");
+        }
+
+        function checkKey(event) {
+            if (event.keyCode === 13) { // Enter key code
+                search();
+            }
+        }
+
+        // 在页面加载完成后执行
+        document.addEventListener('DOMContentLoaded', function() {
+            const select = document.getElementById('country');
+            const wrapper = document.createElement('div');
+            wrapper.className = 'select-wrapper';
+            
+            // 创建一个显示当前选中国旗的元素
+            const flagDisplay = document.createElement('span');
+            flagDisplay.className = 'flag-icon flag-icon-us';
+            flagDisplay.style.position = 'absolute';
+            flagDisplay.style.left = '0.8rem';
+            flagDisplay.style.top = '50%';
+            flagDisplay.style.transform = 'translateY(-50%)';
+            
+            // 将select包装在wrapper中
+            select.parentNode.insertBefore(wrapper, select);
+            wrapper.appendChild(flagDisplay);
+            wrapper.appendChild(select);
+            
+            // 监听select变化，更新显示的国旗
+            select.addEventListener('change', function() {
+                const countryCode = this.value.toLowerCase();
+                // 英国特殊处理
+                const flagCode = countryCode === 'uk' ? 'gb' : countryCode;
+                flagDisplay.className = `flag-icon flag-icon-${flagCode}`;
+            });
+        });
+    </script>
+</body>
+</html>
