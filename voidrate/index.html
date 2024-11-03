@@ -223,7 +223,7 @@
                 <button onclick="calculate()">Calculate</button>
 
                 <div class="info-box">
-                    <p>Recommended Void Rate: 60%</p>
+                    <p>Recommended Void Rate: 80%</p>
                 </div>
 
                 <div class="disclaimer">
@@ -259,55 +259,182 @@
         }
 
         function createSpacingChart(spacingData) {
-            // 计算实际的x和y范围
-            const xValues = spacingData.map(point => point.x);
-            const yValues = spacingData.map(point => point.y);
-            const xMin = Math.min(...xValues);
-            const xMax = Math.max(...xValues);
-            const yMin = 0;  // void rate 最小值固定为0
-            const yMax = Math.min(150, Math.max(...yValues)); // 最大值不超过150%
+            // 添加推荐区域的背景带
+            const recommendedZone = {
+                type: 'rect',
+                x0: 60,  // 60% void rate
+                x1: 80,  // 80% void rate
+                y0: Math.min(...spacingData.map(point => point.x)) * 0.95,
+                y1: Math.max(...spacingData.map(point => point.x)) * 1.05,
+                fillcolor: 'rgba(46, 204, 113, 0.1)',
+                line: {
+                    width: 0
+                },
+                layer: 'below',
+                name: 'Recommended Range'
+            };
 
             const trace = {
-                x: spacingData.map(point => point.x),
-                y: spacingData.map(point => point.y),
+                y: spacingData.map(point => point.x),
+                x: spacingData.map(point => point.y),
                 type: 'scatter',
-                mode: 'lines+markers',
-                name: 'Void Rate',
+                mode: 'lines',  // 移除markers使曲线更平滑
+                name: 'Spacing',
                 line: {
                     color: '#2196F3',
-                    width: 2
+                    width: 2.5,
+                    shape: 'spline'  // 使用样条曲线使线条更平滑
                 },
                 marker: {
-                    color: spacingData.map(point => point.color),
+                    color: spacingData.map(point => 
+                        (point.y >= 60 && point.y <= 80) ? '#2ecc71' : '#2196F3'
+                    ),
                     size: 6
                 }
             };
 
+            // 添加最佳值指示线
+            const optimalLine = {
+                type: 'scatter',
+                mode: 'lines',
+                x: [70], // 70% void rate
+                y: [spacingData.find(point => Math.abs(point.y - 70) < 1)?.x],
+                line: {
+                    color: '#2ecc71',
+                    width: 2
+                },
+                name: 'Optimal Value (70%)',
+                showlegend: true
+            };
+
+            // 计算60%、70%和80% void rate对应的spacing值
+            const spacing60 = spacingData.find(point => Math.abs(point.y - 60) < 1)?.x;
+            const spacing80 = spacingData.find(point => Math.abs(point.y - 80) < 1)?.x;
+            const spacing70 = spacingData.find(point => Math.abs(point.y - 70) < 1)?.x;
+
             const layout = {
-                title: 'Void Rate vs Spacing',
-                xaxis: {
-                    title: 'Spacing (mm)',
-                    gridcolor: '#E0E0E0',
-                    zeroline: true,
-                    range: [xMin * 0.9, xMax * 1.1] // 给x轴留出10%的边距
+                title: {
+                    text: 'Spacing vs Void Rate',
+                    font: {
+                        size: 24,
+                        color: '#2c3e50'
+                    }
                 },
                 yaxis: {
-                    title: 'Void Rate (%)',
-                    gridcolor: '#E0E0E0',
+                    title: {
+                        text: 'Spacing (mm)',
+                        font: {
+                            size: 16,
+                            color: '#2c3e50'
+                        }
+                    },
+                    gridcolor: '#ecf0f1',
                     zeroline: true,
-                    range: [yMin, yMax * 1.1], // 给y轴留出10%的边距
-                    tickformat: '.2f'
+                    zerolinecolor: '#bdc3c7',
+                    autorange: true
+                },
+                xaxis: {
+                    title: {
+                        text: 'Void Rate (%)',
+                        font: {
+                            size: 16,
+                            color: '#2c3e50'
+                        }
+                    },
+                    gridcolor: '#ecf0f1',
+                    zeroline: true,
+                    zerolinecolor: '#bdc3c7',
+                    range: [20, 200],
+                    tickformat: '.0f'  // 移除小数点
                 },
                 plot_bgcolor: '#FFFFFF',
                 paper_bgcolor: '#FFFFFF',
                 hovermode: 'closest',
-                showlegend: false
+                showlegend: true,
+                legend: {
+                    x: 0.02,
+                    y: 0.98,
+                    bgcolor: 'rgba(255, 255, 255, 0.9)',
+                    bordercolor: '#ecf0f1',
+                    borderwidth: 1
+                },
+                shapes: [recommendedZone],
+                annotations: [
+                    {
+                        x: 70,
+                        y: Math.max(...spacingData.map(point => point.x)) * 0.95,
+                        text: [
+                            '<span style="color:#3498db">Recommended Range</span>',
+                            '<span style="color:#e74c3c">60%</span> → ',
+                            '<span style="color:#2ecc71">70%</span> → ',
+                            '<span style="color:#3498db">80%</span>'
+                        ].join('<br>'),
+                        showarrow: true,
+                        arrowhead: 2,
+                        arrowsize: 1,
+                        arrowcolor: '#2ecc71',
+                        ax: 0,
+                        ay: -40,
+                        font: {
+                            size: 14
+                        }
+                    },
+                    {
+                        x: 60,
+                        y: spacing60,
+                        text: `<span style='color:#e74c3c'>${spacing60.toFixed(1)} mm</span>`,
+                        showarrow: true,
+                        arrowhead: 2,
+                        arrowsize: 1,
+                        arrowcolor: '#e74c3c',
+                        ax: 40,
+                        ay: 0,
+                        font: {
+                            size: 14
+                        }
+                    },
+                    {
+                        x: 70,
+                        y: spacing70,
+                        text: `<span style='color:#2ecc71'>${spacing70.toFixed(1)} mm</span>`,
+                        showarrow: true,
+                        arrowhead: 2,
+                        arrowsize: 1,
+                        arrowcolor: '#2ecc71',
+                        ax: 40,
+                        ay: 0,
+                        font: {
+                            size: 14
+                        }
+                    },
+                    {
+                        x: 80,
+                        y: spacing80,
+                        text: `<span style='color:#3498db'>${spacing80.toFixed(1)} mm</span>`,
+                        showarrow: true,
+                        arrowhead: 2,
+                        arrowsize: 1,
+                        arrowcolor: '#3498db',
+                        ax: 40,
+                        ay: 0,
+                        font: {
+                            size: 14
+                        }
+                    }
+                ]
             };
 
-            Plotly.newPlot('spacingChart', [trace], layout, {
+            Plotly.newPlot('spacingChart', [trace, optimalLine], layout, {
                 responsive: true,
                 displayModeBar: true,
-                modeBarButtonsToRemove: ['autoScale2d', 'lasso2d', 'select2d']
+                modeBarButtonsToRemove: ['autoScale2d', 'lasso2d', 'select2d'],
+                toImageButtonOptions: {
+                    format: 'png',
+                    filename: 'void_rate_analysis',
+                    height: 800,
+                    width: 1200,
+                    scale: 2
+                }
             });
         }
 
@@ -386,27 +513,29 @@
                 showlegend: false
             };
 
-            // 计算合适的刻度间隔
-            const maxDimension = Math.max(spacing + R*2, Math.max(R, r)*2.5);
-            const dtick = calculateNiceInterval(maxDimension / 8); // 大约显示8个刻度
-
             const layout = {
                 title: 'Hole Layout Visualization',
                 xaxis: {
                     title: 'Distance (mm)',
                     zeroline: true,
                     gridcolor: '#E0E0E0',
-                    range: [-r*2, spacing + R*2],
-                    dtick: dtick  // 使用计算出的刻度间隔
+                    range: [
+                        -Math.max(r * 2, 50), 
+                        spacing + Math.max(R * 2, 50)
+                    ],
+                    autorange: false
                 },
                 yaxis: {
                     title: 'Position (mm)',
                     zeroline: true,
                     gridcolor: '#E0E0E0',
-                    range: [-Math.max(R, r)*2.5, Math.max(R, r)*2.5],
+                    range: [
+                        -Math.max(R, r) * 3,
+                        Math.max(R, r) * 3
+                    ],
                     scaleanchor: 'x',
                     scaleratio: 1,
-                    dtick: dtick  // 使用相同的刻度间隔
+                    autorange: false
                 },
                 plot_bgcolor: '#FFFFFF',
                 paper_bgcolor: '#FFFFFF',
@@ -439,22 +568,6 @@
                 displayModeBar: true,
                 modeBarButtonsToRemove: ['autoScale2d', 'lasso2d', 'select2d']
             });
-        }
-
-        // 添加计算合适刻度间隔的辅助函数
-        function calculateNiceInterval(roughInterval) {
-            // 计算数量级
-            const exponent = Math.floor(Math.log10(roughInterval));
-            const magnitude = Math.pow(10, exponent);
-            
-            // 标准化到1-10之间
-            const normalized = roughInterval / magnitude;
-            
-            // 选择合适的刻度
-            if (normalized <= 1.5) return magnitude;
-            if (normalized <= 3) return 2 * magnitude;
-            if (normalized <= 7) return 5 * magnitude;
-            return 10 * magnitude;
         }
 
         function createStressField(R, r, spacing) {
@@ -561,7 +674,7 @@
             return points;
         }
 
-        // 修改计算函数
+        // 修改 calculate 函数中生成数据点的部分
         function calculate() {
             const R = parseFloat(document.getElementById("inputR").value);
             const r = parseFloat(document.getElementById("inputr").value);
@@ -571,35 +684,34 @@
                 return;
             }
 
-            // 生成数据点
+            // 根据void rate计算spacing
+            const getSpacing = (voidRate) => {
+                return ((1 / voidRate + 0.2) * Math.PI * (Math.pow(R, 2) + Math.pow(r, 2))) / (R + r);
+            };
+
+            // 生成100个均匀分布的void rate点，从0.2到2.0
             const spacingData = [];
-            const minSpacing = Math.max(50, R + r);
-            const maxSpacing = Math.min(2000, 10 * (R + r));
-
-            // 计算推荐间距（对应80%孔隙率）
-            const targetVoidRate = 0.6; // 80%
-            const recommendedSpacing = Math.PI * (Math.pow(R, 2) + Math.pow(r, 2)) / ((targetVoidRate + 0.5) * (R + r));
-
-            for (let spacing = minSpacing; spacing <= maxSpacing; spacing += (maxSpacing - minSpacing) / 100) {
-                const voidRate = Math.PI * (Math.pow(R, 2) + Math.pow(r, 2)) / (spacing * (R + r)) - 0.5;
+            const voidRateStep = (2.0 - 0.2) / 99; // 99个间隔得到100个点
+            
+            for (let i = 0; i < 100; i++) {
+                const voidRate = 0.2 + i * voidRateStep;
+                const spacing = getSpacing(voidRate);
+                
                 spacingData.push({
                     x: spacing,
-                    y: parseFloat((voidRate * 100).toFixed(2)),
-                    // 修改颜色标记逻辑，突出显示推荐间距附近的点
-                    color: Math.abs(spacing - recommendedSpacing) < (maxSpacing - minSpacing) / 50 ? '#F44336' : '#2196F3'
+                    y: parseFloat((voidRate * 100).toFixed(2)), // 转换为百分比
+                    color: (voidRate >= 0.7 && voidRate <= 0.85) ? '#F44336' : '#2196F3'
                 });
             }
 
-            // 更新所有图表，使用计算出的推荐间距
-            createSpacingChart(spacingData);
-            createHoleVisualization(R, r, recommendedSpacing);
-            createStressField(R, r, recommendedSpacing);
+            // 计算推荐间距
+            const recommendedVoidRate = 0.8;
+            const spacing = getSpacing(recommendedVoidRate);
 
-            // 更新信息框显示实际计算的推荐间距
-            document.querySelector('.info-box').innerHTML = `
-                <p>Recommended Void Rate: 60%</p>
-                <p>Recommended Center Distance: ${recommendedSpacing.toFixed(1)} mm</p>
-            `;
+            // 更新所有图表
+            createSpacingChart(spacingData);
+            createHoleVisualization(R, r, spacing);
+            createStressField(R, r, spacing);
         }
 
         // 初始化
