@@ -2,7 +2,25 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://ilyfei.com/CV/index.html</loc>
+    <loc>https://ilyfei.com/itinerary/index.html</loc>
+    
+    <lastmod>2024-11-03</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://ilyfei.com/cv.html</loc>
+    
+    <lastmod>2024-11-03</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://ilyfei.com/fragments/index.html</loc>
     
     <lastmod>2024-11-03</lastmod>
     
@@ -20,9 +38,27 @@
   </url>
   
   <url>
-    <loc>https://ilyfei.com/cv.html</loc>
+    <loc>https://ilyfei.com/s/index.html</loc>
     
-    <lastmod>2024-11-02</lastmod>
+    <lastmod>2024-11-03</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://ilyfei.com/amazon/index.html</loc>
+    
+    <lastmod>2024-11-03</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://ilyfei.com/CV/index.html</loc>
+    
+    <lastmod>2024-11-03</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -56,15 +92,6 @@
   </url>
   
   <url>
-    <loc>https://ilyfei.com/itinerary/index.html</loc>
-    
-    <lastmod>2024-11-02</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://ilyfei.com/about/index.html</loc>
     
     <lastmod>2024-11-02</lastmod>
@@ -75,33 +102,6 @@
   
   <url>
     <loc>https://ilyfei.com/2023/08/22/share006/</loc>
-    
-    <lastmod>2024-11-02</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://ilyfei.com/amazon/index.html</loc>
-    
-    <lastmod>2024-11-02</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://ilyfei.com/s/index.html</loc>
-    
-    <lastmod>2024-11-02</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://ilyfei.com/fragments/index.html</loc>
     
     <lastmod>2024-11-02</lastmod>
     
