@@ -5,6 +5,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tunnel Burncut DesignVoidRate Calculator</title>
+
+    <!-- Google Analytics 追踪代码 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-5LEHJJD5HL"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-5LEHJJD5HL');
+    </script>
+
     <style>
         :root {
             --primary-color: #2c3e50;
@@ -469,7 +479,7 @@
                 }
             };
 
-            // 添加中心线和标注
+            // 添加中心线和标
             const centerLine = {
                 type: 'scatter',
                 mode: 'lines+text',
@@ -516,9 +526,15 @@
             const layout = {
                 title: 'Hole Layout Visualization',
                 xaxis: {
-                    title: 'Distance (mm)',
+                    title: {
+                        text: 'Distance (mm)',
+                        font: {
+                            size: 24,
+                            color: '#2c3e50'
+                        }
+                    },
                     zeroline: true,
-                    gridcolor: '#E0E0E0',
+                    gridcolor: '#ecf0f1',
                     range: [
                         -Math.max(r * 2, 50), 
                         spacing + Math.max(R * 2, 50)
@@ -526,9 +542,15 @@
                     autorange: false
                 },
                 yaxis: {
-                    title: 'Position (mm)',
+                    title: {
+                        text: 'Position (mm)',
+                        font: {
+                            size: 16,
+                            color: '#2c3e50'
+                        }
+                    },
                     zeroline: true,
-                    gridcolor: '#E0E0E0',
+                    gridcolor: '#ecf0f1',
                     range: [
                         -Math.max(R, r) * 3,
                         Math.max(R, r) * 3
@@ -544,17 +566,12 @@
                     x: 0.7,
                     y: 0.1
                 },
-                annotations: [
-                    {
-                        x: spacing/2,
-                        y: Math.max(R, r)*2,
-                        text: `Center Distance: ${spacing.toFixed(1)}mm`,
-                        showarrow: false,
-                        font: {
-                            size: 14
-                        }
-                    }
-                ]
+                margin: {
+                    l: 50,
+                    r: 50,
+                    t: 50,
+                    b: 50
+                }
             };
 
             Plotly.newPlot('holeVisualization', [
@@ -622,20 +639,40 @@
             });
 
             const layout = {
-                title: 'Stress Field in Granite',
+                title: {
+                    text: 'Stress Field Analysis',
+                    font: {
+                        size: 24,
+                        color: '#2c3e50'
+                    }
+                },
                 xaxis: {
-                    title: 'Distance (mm)',
+                    title: {
+                        text: 'Distance (mm)',
+                        font: {
+                            size: 16,
+                            color: '#2c3e50'
+                        }
+                    },
                     zeroline: true,
-                    gridcolor: '#E0E0E0',
-                    scaleanchor: 'y',
-                    scaleratio: 1,
-                    range: [-r*20, spacing + R*2] // 调整范围以显示完整的应力场
+                    gridcolor: '#ecf0f1',
+                    range: [-r*20, spacing + R*2],
+                    autorange: false
                 },
                 yaxis: {
-                    title: 'Position (mm)',
+                    title: {
+                        text: 'Position (mm)',
+                        font: {
+                            size: 16,
+                            color: '#2c3e50'
+                        }
+                    },
                     zeroline: true,
-                    gridcolor: '#E0E0E0',
-                    range: [-r*20, r*20] // 保持对称的显示范围
+                    gridcolor: '#ecf0f1',
+                    range: [-r*20, r*20],
+                    scaleanchor: 'x',
+                    scaleratio: 1,
+                    autorange: false
                 },
                 plot_bgcolor: '#FFFFFF',
                 paper_bgcolor: '#FFFFFF',
@@ -644,17 +681,12 @@
                     x: 0.7,
                     y: 0.1
                 },
-                annotations: [
-                    {
-                        x: spacing/2,
-                        y: r*20 + 10,
-                        text: `Recommended Distance: ${spacing.toFixed(1)}mm`,
-                        showarrow: false,
-                        font: {
-                            size: 14
-                        }
-                    }
-                ]
+                margin: {
+                    l: 50,
+                    r: 50,
+                    t: 50,
+                    b: 50
+                }
             };
 
             Plotly.newPlot('stressField', traces, layout, {
@@ -683,6 +715,13 @@
                 alert("Please enter valid hole diameters");
                 return;
             }
+
+            // 向 GA4 发送计算事件
+            gtag('event', 'void_rate_calculate', {
+                'reamer_radius': R,
+                'cut_hole_radius': r,
+                'recommended_spacing': ((1 / 0.8 + 0.2) * Math.PI * (Math.pow(R, 2) + Math.pow(r, 2))) / (R + r)
+            });
 
             // 根据void rate计算spacing
             const getSpacing = (voidRate) => {
@@ -714,8 +753,40 @@
             createStressField(R, r, spacing);
         }
 
-        // 初始化
-        document.addEventListener('DOMContentLoaded', calculate);
+        // 添加图表交互事件追踪
+        function addChartEventListeners() {
+            const spacingChart = document.getElementById('spacingChart');
+            const holeVisualization = document.getElementById('holeVisualization');
+            const stressField = document.getElementById('stressField');
+
+            spacingChart.on('plotly_click', function(data) {
+                gtag('event', 'chart_interaction', {
+                    'chart_type': 'spacing_chart',
+                    'interaction_type': 'click',
+                    'data_point': `${data.points[0].x},${data.points[0].y}`
+                });
+            });
+
+            holeVisualization.on('plotly_click', function() {
+                gtag('event', 'chart_interaction', {
+                    'chart_type': 'hole_visualization',
+                    'interaction_type': 'click'
+                });
+            });
+
+            stressField.on('plotly_click', function() {
+                gtag('event', 'chart_interaction', {
+                    'chart_type': 'stress_field',
+                    'interaction_type': 'click'
+                });
+            });
+        }
+
+        // 初始化时添加事件监听
+        document.addEventListener('DOMContentLoaded', function() {
+            calculate();
+            addChartEventListeners();
+        });
         window.addEventListener('resize', debounce(calculate, 250));
     </script>
 </body>

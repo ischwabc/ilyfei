@@ -4,6 +4,16 @@
 <head>
     <meta charset="UTF-8">
     <title>Rock Fragmentation Model Calculator</title>
+
+    <!-- Google Analytics 追踪代码 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-5LEHJJD5HL"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-5LEHJJD5HL');
+    </script>
+
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <style>
         :root {
@@ -384,15 +394,27 @@
                 console.log("Starting calculation...");
                 
                 const x50 = calculateX50() * 10; // Convert to mm
-                console.log("X50:", x50);
-                
                 const n = calculateUniformityIndex();
-                console.log("Uniformity Index:", n);
-                
-                const xmax = x50 * 6;    // 调整最大粒径估计
-                const b = 3.0;           // Swebrec 形状参数
-                const f_f = 0.3;         // TCM 细颗粒比例
-                
+                const xmax = x50 * 6;
+                const b = 3.0;
+                const f_f = 0.3;
+
+                // 向 GA4 发送计算事件
+                gtag('event', 'fragmentation_calculate', {
+                    'rock_density': parseFloat(document.getElementById('rockDensity').value),
+                    'ucs': parseFloat(document.getElementById('ucs').value),
+                    'rmd': parseFloat(document.getElementById('rmd').value),
+                    'jf': parseFloat(document.getElementById('jf').value),
+                    'rws': parseFloat(document.getElementById('rws').value),
+                    'charge': parseFloat(document.getElementById('charge').value),
+                    'burden': parseFloat(document.getElementById('burden').value),
+                    'spacing': parseFloat(document.getElementById('spacing').value),
+                    'bench_height': parseFloat(document.getElementById('benchHeight').value),
+                    'delay': parseFloat(document.getElementById('delay').value),
+                    'x50_result': x50,
+                    'uniformity_index': n
+                });
+
                 // 调整粒径范围
                 const minSize = Math.max(x50 * 0.01, 0.1);
                 const maxSize = xmax * 1.2;
@@ -589,6 +611,10 @@
                 console.log("Calculation completed successfully");
             } catch (error) {
                 console.error("Error in calculate function:", error);
+                // 追踪计算错误
+                gtag('event', 'fragmentation_error', {
+                    'error_message': error.message
+                });
                 alert("An error occurred during calculation. Please check the console for details.");
             }
         }
@@ -618,12 +644,44 @@
             });
         }
 
+        // 添加图表交互追踪
+        function addChartEventListeners() {
+            const plotContainer = document.getElementById('plotContainer');
+            
+            plotContainer.on('plotly_click', function(data) {
+                gtag('event', 'fragmentation_chart_interaction', {
+                    'interaction_type': 'click',
+                    'curve_name': data.points[0].data.name,
+                    'x_value': data.points[0].x,
+                    'y_value': data.points[0].y
+                });
+            });
+
+            plotContainer.on('plotly_zoom', function() {
+                gtag('event', 'fragmentation_chart_interaction', {
+                    'interaction_type': 'zoom'
+                });
+            });
+
+            plotContainer.on('plotly_hover', function(data) {
+                gtag('event', 'fragmentation_chart_interaction', {
+                    'interaction_type': 'hover',
+                    'curve_name': data.points[0].data.name
+                });
+            });
+        }
+
+        // 初始化时添加事件监听
         document.addEventListener('DOMContentLoaded', function() {
             console.log("Page loaded, initializing calculator...");
             try {
                 calculate();
+                addChartEventListeners();
             } catch (error) {
                 console.error("Error during initialization:", error);
+                gtag('event', 'fragmentation_init_error', {
+                    'error_message': error.message
+                });
             }
         });
     </script>

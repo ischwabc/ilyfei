@@ -5,6 +5,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Professional Profile</title>
+    
+    <!-- Google Analytics 追踪代码 - 需要放在最前面 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-5LEHJJD5HL"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-5LEHJJD5HL');
+    </script>
+
     <style>
         :root {
             --primary-color: #2c3e50;
@@ -291,6 +301,77 @@
         }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- 将追踪脚本移到这里 -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 追踪 CV 页面访问
+            gtag('event', 'cv_page_view', {
+                'page_type': 'detailed_cv'
+            });
+
+            // 追踪技能卡片点击
+            document.querySelectorAll('.skill-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    gtag('event', 'cv_skill_view', {
+                        'skill_category': this.querySelector('strong').textContent
+                    });
+                });
+            });
+
+            // 追踪工具链接点击
+            document.querySelectorAll('.tool-link').forEach(link => {
+                link.addEventListener('click', function() {
+                    gtag('event', 'cv_tool_click', {
+                        'tool_name': this.textContent.trim(),
+                        'tool_url': this.getAttribute('href')
+                    });
+                });
+            });
+
+            // 追踪证书图片查看
+            document.querySelectorAll('.certificate-item img').forEach(img => {
+                img.addEventListener('click', function() {
+                    gtag('event', 'cv_certificate_view', {
+                        'certificate_type': this.getAttribute('alt')
+                    });
+                });
+            });
+
+            // 追踪工作经历展示图片查看
+            document.querySelectorAll('.experience-image img').forEach(img => {
+                img.addEventListener('click', function() {
+                    gtag('event', 'cv_experience_image_view', {
+                        'image_type': this.getAttribute('alt')
+                    });
+                });
+            });
+
+            // 追踪外部链接点击
+            document.querySelectorAll('a[target="_blank"]').forEach(link => {
+                link.addEventListener('click', function() {
+                    gtag('event', 'cv_external_link_click', {
+                        'link_text': this.textContent,
+                        'link_url': this.getAttribute('href')
+                    });
+                });
+            });
+
+            // 追踪页面滚动深度
+            let maxScroll = 0;
+            window.addEventListener('scroll', function() {
+                const scrollPercent = (window.scrollY + window.innerHeight) / document.documentElement.scrollHeight * 100;
+                if (scrollPercent > maxScroll) {
+                    maxScroll = scrollPercent;
+                    if (maxScroll > 25 && maxScroll <= 100) {
+                        gtag('event', 'cv_scroll_depth', {
+                            'scroll_percent': Math.floor(maxScroll)
+                        });
+                    }
+                }
+            });
+        });
+    </script>
 </head>
 <body>
     <div class="container">
